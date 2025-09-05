@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UBC 2025–2026 Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="password-screen" class="center">
+    <h2>Enter Password</h2>
+    <input type="password" id="password-input" placeholder="Password" />
+    <button id="pw-btn">Submit</button>
+    <p id="error-message"></p>
+  </div>
+
+  <main id="main-content" style="display:none;">
+    <h1>Welcome to UBC 2025–2026 (Test Version)</h1>
+    <section class="card">
+      <h2>A Rover’s Story</h2>
+      <p>Sample book section for testing. Tap Celebrate to trigger fireworks.</p>
+      <button id="celebrate-btn">🎆 Celebrate!</button>
+    </section>
+    <canvas id="fireworks" aria-hidden="true"></canvas>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
