@@ -1,0 +1,23 @@
+:root { --bg:#f6f7fb; --fg:#222; --card:#fff; --accent:#3366ff; }
+
+* { box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color:var(--fg); background:var(--bg); text-align:center;
+}
+
+.center { max-width:420px; margin:18vh auto 0; padding:24px; background:var(--card);
+  border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.center input { width:100%; padding:12px 14px; font-size:16px; margin:8px 0 12px; }
+.center button { padding:12px 16px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-size:16px; }
+
+#main-content { padding:28px 16px; }
+.card { max-width:560px; margin:24px auto; padding:20px; background:var(--card);
+  border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card button { padding:12px 16px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-size:16px; }
+
+#fireworks {
+  position:fixed; inset:0; width:100vw; height:100vh; pointer-events:none;
+}
+#error-message { color:#d00; font-size:.9rem; min-height:1.2em; }
