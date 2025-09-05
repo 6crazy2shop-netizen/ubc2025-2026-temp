@@ -36,7 +36,13 @@ body {
 
 .book img {
   width: 100%;
+  max-width: 200px;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 12px;
   border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 button {
