@@ -1,9 +1,48 @@
-// Password check
+// Password check (unchanged)
 const pwBtn = document.getElementById("pw-btn");
 const input = document.getElementById("password-input");
 const err = document.getElementById("error-message");
 const main = document.getElementById("main-content");
 const gate = document.getElementById("password-screen");
+
+// Splash & loading
+const splash = document.getElementById("splash-screen");
+const loading = document.getElementById("loading-screen");
+const startBtn = document.getElementById("start-btn");
+const teamSplash = document.getElementById("team-name-splash");
+const teamMain = document.getElementById("team-name");
+const footer = document.querySelector("footer p");
+
+// On load: show loading → then splash
+window.addEventListener("load", () => {
+  const whoosh = document.getElementById("sound-whoosh");
+  whoosh?.play();
+  setTimeout(() => {
+    loading.style.display = "none";
+    splash.style.display = "block";
+  }, 2000);
+});
+
+// Start Adventure → go to password screen
+startBtn?.addEventListener("click", () => {
+  localStorage.setItem("teamName", teamSplash.value);
+  splash.style.display = "none";
+  gate.style.display = "block";
+});
+
+// Save team name edits in main
+teamMain?.addEventListener("input", () => {
+  localStorage.setItem("teamName", teamMain.value);
+  footer.textContent = `Created by Devarani Ponna · Educational Use Only · Team: ${teamMain.value}`;
+});
+
+// Load saved team name
+const savedTeam = localStorage.getItem("teamName");
+if (savedTeam) {
+  teamSplash.value = savedTeam;
+  teamMain.value = savedTeam;
+  footer.textContent = `Created by Devarani Ponna · Educational Use Only · Team: ${savedTeam}`;
+}
 
 function unlock() { gate.style.display = "none"; main.style.display = "block"; }
 function checkSaved() { if (sessionStorage.getItem("ubc_ok") === "1") unlock(); }
@@ -52,13 +91,11 @@ function burst(x, y) {
 
 // Celebrate with sound + confetti + fireworks
 function celebrate(theme) {
-  // Play sound
   const sound = document.getElementById(`sound-${theme}`);
   if (sound) {
     sound.currentTime = 0;
     sound.play();
   }
-
   // Confetti burst
   for (let i = 0; i < 150; i++) {
     const confetti = document.createElement("div");
@@ -69,8 +106,6 @@ function celebrate(theme) {
     confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
     setTimeout(() => confetti.remove(), 5000);
   }
-
-  // Fireworks
   burst(innerWidth / 2, innerHeight / 2);
 }
 
@@ -89,3 +124,11 @@ function randomConfettiColor(theme) {
   const themeColors = colors[theme] || ["#ffffff"];
   return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
+
+// Test Celebration button on splash
+document.getElementById("test-celebration")?.addEventListener("click", () => {
+  const ta = Math.random() > 0.5 ? "sound-ta1" : "sound-ta2";
+  const sound = document.getElementById(ta);
+  if (sound) { sound.currentTime = 0; sound.play(); }
+  celebrate("rover"); // rainbow burst preview
+});
