@@ -9,84 +9,85 @@
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <div class="loading-stars">
-      <span>★</span><span>★</span><span>★</span>
-    </div>
+    <div class="loading-stars"><span>★</span><span>★</span><span>★</span></div>
     <p class="loading-text">Loading…</p>
   </div>
 
   <!-- Splash Screen -->
   <div id="splash-screen" class="center" style="display:none;">
-    <h1 class="sparkle">UBC 2025–2026</h1>
-    <p>Edit your team name:</p>
+    <h1 class="sparkle" data-key="splashTitle">UBC 2025–2026</h1>
+    <p data-key="teamPromptSplash">Edit your team name:</p>
     <input type="text" id="team-name-splash" placeholder="Team Name" />
-    <button id="start-btn">Start Adventure 🚀</button>
-    <button id="test-celebration">Test Celebration 🎆</button>
+    <button id="start-btn" data-key="startBtn">Start Adventure 🚀</button>
+    <button id="test-celebration" data-key="testBtn">Test Celebration 🎆</button>
     <canvas id="splash-confetti"></canvas>
   </div>
 
-  <!-- Password screen -->
+  <!-- Password Screen -->
   <div id="password-screen" class="center" style="display:none;">
-    <h2>Enter Password</h2>
+    <h2 data-key="pwTitle">Enter Password</h2>
     <input type="password" id="password-input" placeholder="Password" />
-    <button id="pw-btn">Submit</button>
+    <button id="pw-btn" data-key="pwBtn">Submit</button>
     <p id="error-message"></p>
   </div>
 
-  <!-- Main content -->
+  <!-- Main Content -->
   <main id="main-content" style="display:none;">
     <header>
-      <h1>Ultimate Book Challenge 2025–2026</h1>
-      <p>Edit your team name below:</p>
+      <h1 data-key="mainTitle">Ultimate Book Challenge 2025–2026</h1>
+      <div class="controls">
+        <button id="mode-toggle">🌙 Dark Mode</button>
+        <button id="lang-toggle">🌐 Español</button>
+      </div>
+      <p data-key="teamPromptMain">Edit your team name below:</p>
       <input type="text" id="team-name" placeholder="Team Name" />
     </header>
 
-    <!-- Book grid -->
+    <!-- Book Grid -->
     <div class="book-grid">
-      <!-- 8 books same as before -->
       <section class="book">
-        <h2>A Rover’s Story</h2>
+        <h2 data-key="roverTitle">A Rover’s Story</h2>
         <img src="rover.jpg" alt="A Rover’s Story cover" />
-        <button onclick="celebrate('rover')">Celebrate Rover 🎆</button>
+        <button onclick="celebrate('rover')" data-key="roverBtn">Celebrate Rover 🎆</button>
       </section>
       <section class="book">
-        <h2>Legends of Lotus Island</h2>
+        <h2 data-key="lotusTitle">Legends of Lotus Island</h2>
         <img src="lotus.jpg" alt="Lotus Island cover" />
-        <button onclick="celebrate('lotus')">Celebrate Lotus 🌸</button>
+        <button onclick="celebrate('lotus')" data-key="lotusBtn">Celebrate Lotus 🌸</button>
       </section>
       <section class="book">
-        <h2>Haven: A Small Cat’s Big Adventure</h2>
+        <h2 data-key="havenTitle">Haven: A Small Cat’s Big Adventure</h2>
         <img src="haven.jpg" alt="Haven cover" />
-        <button onclick="celebrate('haven')">Celebrate Haven 🐾</button>
+        <button onclick="celebrate('haven')" data-key="havenBtn">Celebrate Haven 🐾</button>
       </section>
       <section class="book">
-        <h2>The Lost Library</h2>
+        <h2 data-key="libraryTitle">The Lost Library</h2>
         <img src="lostlibrary.jpg" alt="The Lost Library cover" />
-        <button onclick="celebrate('library')">Celebrate Library 📚</button>
+        <button onclick="celebrate('library')" data-key="libraryBtn">Celebrate Library 📚</button>
       </section>
       <section class="book">
-        <h2>The Superteacher Project</h2>
+        <h2 data-key="teacherTitle">The Superteacher Project</h2>
         <img src="superteacher.jpg" alt="Superteacher cover" />
-        <button onclick="celebrate('teacher')">Celebrate Teacher 🍎</button>
+        <button onclick="celebrate('teacher')" data-key="teacherBtn">Celebrate Teacher 🍎</button>
       </section>
       <section class="book">
-        <h2>The First Cat in Space Ate Pizza</h2>
+        <h2 data-key="catTitle">The First Cat in Space Ate Pizza</h2>
         <img src="catinspace.jpg" alt="Cat in Space cover" />
-        <button onclick="celebrate('cat')">Celebrate Cat 🚀</button>
+        <button onclick="celebrate('cat')" data-key="catBtn">Celebrate Cat 🚀</button>
       </section>
       <section class="book">
-        <h2>Escape from Mr. Lemoncello’s Library</h2>
+        <h2 data-key="lemonTitle">Escape from Mr. Lemoncello’s Library</h2>
         <img src="lemoncello.jpg" alt="Lemoncello cover" />
-        <button onclick="celebrate('lemon')">Celebrate Lemoncello 🏆</button>
+        <button onclick="celebrate('lemon')" data-key="lemonBtn">Celebrate Lemoncello 🏆</button>
       </section>
       <section class="book">
-        <h2>I Survived the Galveston Hurricane</h2>
+        <h2 data-key="stormTitle">I Survived the Galveston Hurricane</h2>
         <img src="galveston.jpg" alt="Galveston Hurricane cover" />
-        <button onclick="celebrate('storm')">Celebrate Galveston 🌊</button>
+        <button onclick="celebrate('storm')" data-key="stormBtn">Celebrate Galveston 🌊</button>
       </section>
     </div>
 
-    <!-- Celebration sounds -->
+    <!-- Sounds -->
     <audio id="sound-rover" src="sounds/rover.mp3"></audio>
     <audio id="sound-lotus" src="sounds/lotus.mp3"></audio>
     <audio id="sound-haven" src="sounds/haven.mp3"></audio>
@@ -101,7 +102,7 @@
 
     <!-- Footer -->
     <footer>
-      <p>Created by Devarani Ponna · Educational Use Only</p>
+      <p id="footer-text">Created by Devarani Ponna · Educational Use Only</p>
     </footer>
 
     <canvas id="fireworks" aria-hidden="true"></canvas>
