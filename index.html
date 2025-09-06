@@ -38,6 +38,7 @@
       <div class="controls">
         <button id="mode-toggle">🌙 Dark Mode</button>
         <button id="lang-toggle">🌐 Español</button>
+        <button id="friends-toggle">👥 Friends</button>
       </div>
       <p data-key="teamPromptMain">Edit your team name below:</p>
       <input type="text" id="team-name" placeholder="Team Name" />
@@ -45,60 +46,65 @@
 
     <!-- Book Grid -->
     <div class="book-grid">
-      <section class="book">
+      <section class="book" onclick="openBook('rover')">
         <h2 data-key="roverTitle">A Rover’s Story</h2>
         <img src="rover.jpg" alt="A Rover’s Story cover" />
-        <button onclick="celebrate('rover')" data-key="roverBtn">Celebrate Rover 🎆</button>
+        <button onclick="celebrate('rover');event.stopPropagation();" data-key="roverBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('lotus')">
         <h2 data-key="lotusTitle">Legends of Lotus Island</h2>
         <img src="lotus.jpg" alt="Lotus Island cover" />
-        <button onclick="celebrate('lotus')" data-key="lotusBtn">Celebrate Lotus 🌸</button>
+        <button onclick="celebrate('lotus');event.stopPropagation();" data-key="lotusBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('haven')">
         <h2 data-key="havenTitle">Haven: A Small Cat’s Big Adventure</h2>
         <img src="haven.jpg" alt="Haven cover" />
-        <button onclick="celebrate('haven')" data-key="havenBtn">Celebrate Haven 🐾</button>
+        <button onclick="celebrate('haven');event.stopPropagation();" data-key="havenBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('library')">
         <h2 data-key="libraryTitle">The Lost Library</h2>
         <img src="lostlibrary.jpg" alt="The Lost Library cover" />
-        <button onclick="celebrate('library')" data-key="libraryBtn">Celebrate Library 📚</button>
+        <button onclick="celebrate('library');event.stopPropagation();" data-key="libraryBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('teacher')">
         <h2 data-key="teacherTitle">The Superteacher Project</h2>
         <img src="superteacher.jpg" alt="Superteacher cover" />
-        <button onclick="celebrate('teacher')" data-key="teacherBtn">Celebrate Teacher 🍎</button>
+        <button onclick="celebrate('teacher');event.stopPropagation();" data-key="teacherBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('cat')">
         <h2 data-key="catTitle">The First Cat in Space Ate Pizza</h2>
         <img src="catinspace.jpg" alt="Cat in Space cover" />
-        <button onclick="celebrate('cat')" data-key="catBtn">Celebrate Cat 🚀</button>
+        <button onclick="celebrate('cat');event.stopPropagation();" data-key="catBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('lemon')">
         <h2 data-key="lemonTitle">Escape from Mr. Lemoncello’s Library</h2>
         <img src="lemoncello.jpg" alt="Lemoncello cover" />
-        <button onclick="celebrate('lemon')" data-key="lemonBtn">Celebrate Lemoncello 🏆</button>
+        <button onclick="celebrate('lemon');event.stopPropagation();" data-key="lemonBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book">
+      <section class="book" onclick="openBook('storm')">
         <h2 data-key="stormTitle">I Survived the Galveston Hurricane</h2>
         <img src="galveston.jpg" alt="Galveston Hurricane cover" />
-        <button onclick="celebrate('storm')" data-key="stormBtn">Celebrate Galveston 🌊</button>
+        <button onclick="celebrate('storm');event.stopPropagation();" data-key="stormBtn">Let’s Dig It 🚀</button>
       </section>
     </div>
 
-    <!-- Sounds -->
-    <audio id="sound-rover" src="sounds/rover.mp3"></audio>
-    <audio id="sound-lotus" src="sounds/lotus.mp3"></audio>
-    <audio id="sound-haven" src="sounds/haven.mp3"></audio>
-    <audio id="sound-library" src="sounds/library.mp3"></audio>
-    <audio id="sound-teacher" src="sounds/teacher.mp3"></audio>
-    <audio id="sound-cat" src="sounds/cat.mp3"></audio>
-    <audio id="sound-lemon" src="sounds/lemon.mp3"></audio>
-    <audio id="sound-storm" src="sounds/storm.mp3"></audio>
-    <audio id="sound-ta1" src="sounds/ta1.mp3"></audio>
-    <audio id="sound-ta2" src="sounds/ta2.mp3"></audio>
-    <audio id="sound-whoosh" src="sounds/whoosh.mp3"></audio>
+    <!-- Team Notes Sidebar -->
+    <aside id="friends-panel">
+      <h2>Team Notes (Team: <span id="team-name-display"></span>)</h2>
+      <textarea id="team-notes" placeholder="Type here..."></textarea>
+      <button id="save-notes">Save Notes</button>
+    </aside>
+
+    <!-- Book Overlay (Interactive View) -->
+    <div id="book-overlay">
+      <div class="overlay-content">
+        <h2 id="book-title"></h2>
+        <img id="book-cover" src="" alt="Book cover" />
+        <p id="book-summary"></p>
+        <div class="video-placeholder">🎥 Video coming soon</div>
+        <button onclick="closeBook()">Close ❌</button>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer>
