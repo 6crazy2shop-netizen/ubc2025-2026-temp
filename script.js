@@ -222,3 +222,50 @@ langBtn?.addEventListener("click", () => {
   applyLanguage(currentLang);
   langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
 });
+
+// ================== TEAM NOTES (Friends Panel) ==================
+const friendsBtn = document.getElementById("friends-toggle");
+const friendsPanel = document.getElementById("friends-panel");
+const notesArea = document.getElementById("team-notes");
+const saveNotesBtn = document.getElementById("save-notes");
+const teamDisplay = document.getElementById("team-name-display");
+
+// Load saved notes
+notesArea.value = localStorage.getItem("teamNotes") || "";
+teamDisplay.textContent = localStorage.getItem("teamName") || "Unknown";
+
+friendsBtn?.addEventListener("click", () => {
+  friendsPanel.classList.toggle("open");
+});
+
+saveNotesBtn?.addEventListener("click", () => {
+  localStorage.setItem("teamNotes", notesArea.value);
+  alert("Notes saved!");
+});
+
+// ================== BOOK OVERLAY ==================
+const overlay = document.getElementById("book-overlay");
+const overlayTitle = document.getElementById("book-title");
+const overlayCover = document.getElementById("book-cover");
+const overlaySummary = document.getElementById("book-summary");
+
+const summaries = {
+  rover: "A robot rover explores Mars, learning about friendship and resilience.",
+  lotus: "Young heroes discover magical powers on Lotus Island.",
+  haven: "A brave cat sets out on a big adventure in the city.",
+  library: "A mysterious lost library hides secrets waiting to be found.",
+  teacher: "A teacher with surprising powers inspires students.",
+  cat: "A cat astronaut has a wild space adventure (and pizza!).",
+  lemon: "Kids solve puzzles to escape Mr. Lemoncello’s amazing library.",
+  storm: "Surviving the great Galveston hurricane of 1900."
+};
+
+function openBook(book) {
+  overlay.classList.add("active");
+  overlayTitle.textContent = document.querySelector(`[data-key='${book}Title']`).textContent;
+  overlayCover.src = `${book}.jpg`;
+  overlaySummary.textContent = summaries[book] || "Story coming soon.";
+}
+function closeBook() {
+  overlay.classList.remove("active");
+}
