@@ -16,18 +16,17 @@ pwBtn?.addEventListener("click", () => {
 });
 input?.addEventListener("keydown", e => { if (e.key === "Enter") pwBtn.click(); });
 
-// Fireworks celebrate
+// Fireworks
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 function fit() { canvas.width = innerWidth; canvas.height = innerHeight; }
 addEventListener("resize", fit); fit();
 
-function celebrate(theme) {
+function burst(x, y) {
   const parts = [];
   for (let i=0;i<120;i++){
     parts.push({
-      x: canvas.width/2,
-      y: canvas.height/2,
+      x, y,
       vx: (Math.random()-0.5)*8,
       vy: (Math.random()-0.5)*8,
       r: Math.random()*2+1.8,
@@ -49,4 +48,44 @@ function celebrate(theme) {
     t++; if(t<140) requestAnimationFrame(tick);
   }
   tick();
+}
+
+// Celebrate with sound + confetti + fireworks
+function celebrate(theme) {
+  // Play sound
+  const sound = document.getElementById(`sound-${theme}`);
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+
+  // Confetti burst
+  for (let i = 0; i < 150; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    document.body.appendChild(confetti);
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.backgroundColor = randomConfettiColor(theme);
+    confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+    setTimeout(() => confetti.remove(), 5000);
+  }
+
+  // Fireworks
+  burst(innerWidth / 2, innerHeight / 2);
+}
+
+// Confetti colors per book
+function randomConfettiColor(theme) {
+  const colors = {
+    rover: ["#ff4d4d", "#ff9999", "#ff1a1a"],
+    lotus: ["#33cc33", "#66ff66", "#009933"],
+    haven: ["#ff66cc", "#ff99cc", "#ff3399"],
+    library: ["#ffcc00", "#ffdd66", "#ffaa00"],
+    teacher: ["#3366ff", "#6699ff", "#0033cc"],
+    cat: ["#ff6600", "#ff9933", "#ffcc66"],
+    lemon: ["#cc33ff", "#9933ff", "#cc99ff"],
+    storm: ["#00ccff", "#3399ff", "#0066cc"]
+  };
+  const themeColors = colors[theme] || ["#ffffff"];
+  return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
