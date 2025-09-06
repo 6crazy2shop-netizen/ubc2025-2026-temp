@@ -1,19 +1,25 @@
-// Password check (unchanged)
-const pwBtn = document.getElementById("pw-btn");
-const input = document.getElementById("password-input");
-const err = document.getElementById("error-message");
-const main = document.getElementById("main-content");
-const gate = document.getElementById("password-screen");
+// ================== TEAM NAME + FOOTER SYNC ==================
+const teamSplash = document.getElementById("team-name-splash");
+const teamMain = document.getElementById("team-name");
+const footer = document.getElementById("footer-text");
 
-// Splash & loading
+function updateTeamName(name) {
+  if (!name) return;
+  localStorage.setItem("teamName", name);
+  if (teamSplash) teamSplash.value = name;
+  if (teamMain) teamMain.value = name;
+  if (footer) footer.textContent = `Created by Devarani Ponna · Educational Use Only · Team: ${name}`;
+}
+
+// Load saved team name
+const savedTeam = localStorage.getItem("teamName");
+if (savedTeam) updateTeamName(savedTeam);
+
+// ================== LOADING + SPLASH ==================
 const splash = document.getElementById("splash-screen");
 const loading = document.getElementById("loading-screen");
 const startBtn = document.getElementById("start-btn");
-const teamSplash = document.getElementById("team-name-splash");
-const teamMain = document.getElementById("team-name");
-const footer = document.querySelector("footer p");
 
-// On load: show loading → then splash
 window.addEventListener("load", () => {
   const whoosh = document.getElementById("sound-whoosh");
   whoosh?.play();
@@ -23,26 +29,20 @@ window.addEventListener("load", () => {
   }, 2000);
 });
 
-// Start Adventure → go to password screen
 startBtn?.addEventListener("click", () => {
-  localStorage.setItem("teamName", teamSplash.value);
+  updateTeamName(teamSplash.value);
   splash.style.display = "none";
   gate.style.display = "block";
 });
 
-// Save team name edits in main
-teamMain?.addEventListener("input", () => {
-  localStorage.setItem("teamName", teamMain.value);
-  footer.textContent = `Created by Devarani Ponna · Educational Use Only · Team: ${teamMain.value}`;
-});
+teamMain?.addEventListener("input", () => updateTeamName(teamMain.value));
 
-// Load saved team name
-const savedTeam = localStorage.getItem("teamName");
-if (savedTeam) {
-  teamSplash.value = savedTeam;
-  teamMain.value = savedTeam;
-  footer.textContent = `Created by Devarani Ponna · Educational Use Only · Team: ${savedTeam}`;
-}
+// ================== PASSWORD GATE ==================
+const pwBtn = document.getElementById("pw-btn");
+const input = document.getElementById("password-input");
+const err = document.getElementById("error-message");
+const main = document.getElementById("main-content");
+const gate = document.getElementById("password-screen");
 
 function unlock() { gate.style.display = "none"; main.style.display = "block"; }
 function checkSaved() { if (sessionStorage.getItem("ubc_ok") === "1") unlock(); }
@@ -55,7 +55,7 @@ pwBtn?.addEventListener("click", () => {
 });
 input?.addEventListener("keydown", e => { if (e.key === "Enter") pwBtn.click(); });
 
-// Fireworks
+// ================== FIREWORKS ==================
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 function fit() { canvas.width = innerWidth; canvas.height = innerHeight; }
@@ -89,14 +89,14 @@ function burst(x, y) {
   tick();
 }
 
-// Celebrate with sound + confetti + fireworks
+// ================== CELEBRATION ==================
 function celebrate(theme) {
   const sound = document.getElementById(`sound-${theme}`);
   if (sound) {
     sound.currentTime = 0;
     sound.play();
   }
-  // Confetti burst
+  // Confetti
   for (let i = 0; i < 150; i++) {
     const confetti = document.createElement("div");
     confetti.className = "confetti";
@@ -109,7 +109,7 @@ function celebrate(theme) {
   burst(innerWidth / 2, innerHeight / 2);
 }
 
-// Confetti colors per book
+// Confetti colors per theme
 function randomConfettiColor(theme) {
   const colors = {
     rover: ["#ff4d4d", "#ff9999", "#ff1a1a"],
@@ -125,10 +125,100 @@ function randomConfettiColor(theme) {
   return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
 
-// Test Celebration button on splash
+// Test Celebration button (splash)
 document.getElementById("test-celebration")?.addEventListener("click", () => {
   const ta = Math.random() > 0.5 ? "sound-ta1" : "sound-ta2";
   const sound = document.getElementById(ta);
   if (sound) { sound.currentTime = 0; sound.play(); }
-  celebrate("rover"); // rainbow burst preview
+  celebrate("rover");
+});
+
+// ================== DARK/LIGHT MODE ==================
+const modeBtn = document.getElementById("mode-toggle");
+if (localStorage.getItem("ubc_mode") === "dark") {
+  document.body.classList.add("dark-mode");
+  if (modeBtn) modeBtn.textContent = "☀️ Light Mode";
+}
+modeBtn?.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const dark = document.body.classList.contains("dark-mode");
+  modeBtn.textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  localStorage.setItem("ubc_mode", dark ? "dark" : "light");
+});
+
+// ================== LANGUAGE TOGGLE ==================
+const translations = {
+  en: {
+    splashTitle: "UBC 2025–2026",
+    teamPromptSplash: "Edit your team name:",
+    startBtn: "Start Adventure 🚀",
+    testBtn: "Test Celebration 🎆",
+    pwTitle: "Enter Password",
+    pwBtn: "Submit",
+    mainTitle: "Ultimate Book Challenge 2025–2026",
+    teamPromptMain: "Edit your team name below:",
+    roverTitle: "A Rover’s Story",
+    roverBtn: "Celebrate Rover 🎆",
+    lotusTitle: "Legends of Lotus Island",
+    lotusBtn: "Celebrate Lotus 🌸",
+    havenTitle: "Haven: A Small Cat’s Big Adventure",
+    havenBtn: "Celebrate Haven 🐾",
+    libraryTitle: "The Lost Library",
+    libraryBtn: "Celebrate Library 📚",
+    teacherTitle: "The Superteacher Project",
+    teacherBtn: "Celebrate Teacher 🍎",
+    catTitle: "The First Cat in Space Ate Pizza",
+    catBtn: "Celebrate Cat 🚀",
+    lemonTitle: "Escape from Mr. Lemoncello’s Library",
+    lemonBtn: "Celebrate Lemoncello 🏆",
+    stormTitle: "I Survived the Galveston Hurricane",
+    stormBtn: "Celebrate Galveston 🌊"
+  },
+  es: {
+    splashTitle: "UBC 2025–2026",
+    teamPromptSplash: "Edita el nombre de tu equipo:",
+    startBtn: "Comenzar Aventura 🚀",
+    testBtn: "Probar Celebración 🎆",
+    pwTitle: "Ingresar Contraseña",
+    pwBtn: "Enviar",
+    mainTitle: "Desafío de Libros 2025–2026",
+    teamPromptMain: "Edita el nombre de tu equipo abajo:",
+    roverTitle: "La Historia de Rover",
+    roverBtn: "Celebrar Rover 🎆",
+    lotusTitle: "Leyendas de la Isla del Loto",
+    lotusBtn: "Celebrar Loto 🌸",
+    havenTitle: "Haven: La Gran Aventura de un Pequeño Gato",
+    havenBtn: "Celebrar Haven 🐾",
+    libraryTitle: "La Biblioteca Perdida",
+    libraryBtn: "Celebrar Biblioteca 📚",
+    teacherTitle: "El Proyecto Superprofesor",
+    teacherBtn: "Celebrar Profesor 🍎",
+    catTitle: "El Primer Gato en el Espacio Comió Pizza",
+    catBtn: "Celebrar Gato 🚀",
+    lemonTitle: "Escape de la Biblioteca de Lemoncello",
+    lemonBtn: "Celebrar Lemoncello 🏆",
+    stormTitle: "Sobreviví al Huracán de Galveston",
+    stormBtn: "Celebrar Galveston 🌊"
+  }
+};
+
+function applyLanguage(lang) {
+  document.querySelectorAll("[data-key]").forEach(el => {
+    const key = el.getAttribute("data-key");
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+}
+
+const langBtn = document.getElementById("lang-toggle");
+let currentLang = localStorage.getItem("ubc_lang") || "en";
+applyLanguage(currentLang);
+if (langBtn) langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
+
+langBtn?.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "es" : "en";
+  localStorage.setItem("ubc_lang", currentLang);
+  applyLanguage(currentLang);
+  langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
 });
