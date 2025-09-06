@@ -95,7 +95,27 @@ function celebrate(theme) {
   if (sound) {
     sound.currentTime = 0;
     sound.play();
+
+    // Force sound to last at least 10–15 seconds
+    let duration = sound.duration;
+    if (isNaN(duration) || duration < 10) {
+      // Loop until >= 10s
+      let minPlay = 10000; // 10s
+      let loops = Math.ceil(minPlay / (duration * 1000 || 3000)); 
+      let playCount = 0;
+
+      sound.addEventListener("ended", function loopHandler() {
+        if (playCount < loops) {
+          sound.currentTime = 0;
+          sound.play();
+          playCount++;
+        } else {
+          sound.removeEventListener("ended", loopHandler);
+        }
+      });
+    }
   }
+
   // Confetti
   for (let i = 0; i < 150; i++) {
     const confetti = document.createElement("div");
@@ -106,6 +126,7 @@ function celebrate(theme) {
     confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
     setTimeout(() => confetti.remove(), 5000);
   }
+
   burst(innerWidth / 2, innerHeight / 2);
 }
 
