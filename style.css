@@ -14,6 +14,14 @@ body {
   text-align: center;
 }
 
+/* Dark mode */
+body.dark-mode {
+  --bg: #2c2c2c;
+  --fg: #f0f0f0;
+  --card: #3a3a3a;
+  --accent: #6699ff;
+}
+
 /* Loading screen */
 #loading-screen {
   position: fixed;
@@ -42,17 +50,14 @@ body {
   50% { opacity: 1; }
 }
 
-/* Splash screen */
-.sparkle {
-  font-size: 28px;
-  animation: sparkle 1.5s infinite;
-}
+/* Splash */
+.sparkle { font-size: 28px; animation: sparkle 1.5s infinite; }
 @keyframes sparkle {
   0%,100% { text-shadow: 0 0 6px #fff; }
   50% { text-shadow: 0 0 12px gold; }
 }
 
-/* Password box */
+/* Password + splash boxes */
 .center {
   max-width: 420px;
   margin: 12vh auto 0;
@@ -73,7 +78,7 @@ body {
   padding: 20px;
 }
 
-/* Book card */
+/* Book cards */
 .book {
   padding: 16px;
   background: var(--card);
@@ -102,6 +107,19 @@ button {
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
+}
+
+/* Controls (toggle buttons) */
+.controls { margin: 10px 0; }
+#mode-toggle, #lang-toggle {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0 4px;
 }
 
 footer {
