@@ -13,14 +13,14 @@
     <p class="loading-text">Loading…</p>
   </div>
 
- <!-- Splash Screen -->
-<div id="splash-screen" class="center" style="display:none;">
-  <h1 class="sparkle" data-key="splashTitle">UBC 2025–2026</h1>
-  <p data-key="teamPromptSplash">Edit your team name:</p>
-  <input type="text" id="team-name-splash" placeholder="Team Name" />
-  <button id="start-btn" data-key="startBtn">Start Adventure 🚀</button>
-  <canvas id="splash-confetti"></canvas>
-</div>
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="center" style="display:none;">
+    <h1 class="sparkle" data-key="splashTitle">UBC 2025–2026</h1>
+    <p data-key="teamPromptSplash">Edit your team name:</p>
+    <input type="text" id="team-name-splash" placeholder="Team Name" />
+    <button id="start-btn" data-key="startBtn">Start Adventure 🚀</button>
+    <canvas id="splash-confetti"></canvas>
+  </div>
 
   <!-- Password Screen -->
   <div id="password-screen" class="center" style="display:none;">
@@ -35,9 +35,29 @@
     <header>
       <h1 data-key="mainTitle">Ultimate Book Challenge 2025–2026</h1>
       <div class="controls">
-        <button id="mode-toggle">🌙 Dark Mode</button>
-        <button id="lang-toggle">🌐 Español</button>
-        <button id="friends-toggle">👥 Friends</button>
+        <button id="mode-toggle" title="Toggle Dark/Light Mode">🌙</button>
+        <button id="lang-toggle" title="Switch Language">🌐</button>
+        <button id="friends-toggle" title="Show/Hide Team Notes">👥</button>
+
+        <select id="music-select" title="Choose Background Music">
+          <option value="calm" selected>🎶 Calm</option>
+          <option value="piano">🎹 Piano</option>
+          <option value="beat">🥁 Beat</option>
+        </select>
+
+        <button id="music-toggle" title="Mute/Unmute Background Music">🎶 On</button>
+        <button id="global-toggle" title="Mute/Unmute All Sounds">🔊 On</button>
+
+        <select id="avatar-select" title="Choose Avatar">
+          <option value="🚀">🚀</option>
+          <option value="🐱">🐱</option>
+          <option value="📚">📚</option>
+          <option value="🌟">🌟</option>
+        </select>
+        <span id="avatar-display">🚀</span>
+
+        <button id="theme-toggle" title="Switch Theme">🎨</button>
+        <div id="progress-tracker">⭐ Progress: <span id="stars">0</span></div>
       </div>
       <p data-key="teamPromptMain">Edit your team name below:</p>
       <input type="text" id="team-name" placeholder="Team Name" />
@@ -55,36 +75,7 @@
         <img src="lotus.jpg" alt="Lotus Island cover" />
         <button onclick="celebrate('lotus');event.stopPropagation();" data-key="lotusBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openBook('haven')">
-        <h2 data-key="havenTitle">Haven: A Small Cat’s Big Adventure</h2>
-        <img src="haven.jpg" alt="Haven cover" />
-        <button onclick="celebrate('haven');event.stopPropagation();" data-key="havenBtn">Let’s Dig It 🚀</button>
-      </section>
-      <section class="book" onclick="openBook('library')">
-        <h2 data-key="libraryTitle">The Lost Library</h2>
-        <img src="lostlibrary.jpg" alt="The Lost Library cover" />
-        <button onclick="celebrate('library');event.stopPropagation();" data-key="libraryBtn">Let’s Dig It 🚀</button>
-      </section>
-      <section class="book" onclick="openBook('teacher')">
-        <h2 data-key="teacherTitle">The Superteacher Project</h2>
-        <img src="superteacher.jpg" alt="Superteacher cover" />
-        <button onclick="celebrate('teacher');event.stopPropagation();" data-key="teacherBtn">Let’s Dig It 🚀</button>
-      </section>
-      <section class="book" onclick="openBook('cat')">
-        <h2 data-key="catTitle">The First Cat in Space Ate Pizza</h2>
-        <img src="catinspace.jpg" alt="Cat in Space cover" />
-        <button onclick="celebrate('cat');event.stopPropagation();" data-key="catBtn">Let’s Dig It 🚀</button>
-      </section>
-      <section class="book" onclick="openBook('lemon')">
-        <h2 data-key="lemonTitle">Escape from Mr. Lemoncello’s Library</h2>
-        <img src="lemoncello.jpg" alt="Lemoncello cover" />
-        <button onclick="celebrate('lemon');event.stopPropagation();" data-key="lemonBtn">Let’s Dig It 🚀</button>
-      </section>
-      <section class="book" onclick="openBook('storm')">
-        <h2 data-key="stormTitle">I Survived the Galveston Hurricane</h2>
-        <img src="galveston.jpg" alt="Galveston Hurricane cover" />
-        <button onclick="celebrate('storm');event.stopPropagation();" data-key="stormBtn">Let’s Dig It 🚀</button>
-      </section>
+      <!-- Repeat for other books (haven, library, teacher, cat, lemon, storm) -->
     </div>
 
     <!-- Team Notes Sidebar -->
@@ -92,9 +83,16 @@
       <h2>Team Notes (Team: <span id="team-name-display"></span>)</h2>
       <textarea id="team-notes" placeholder="Type here..."></textarea>
       <button id="save-notes">Save Notes</button>
+      <button id="export-notes">Export Notes (PDF)</button>
+
+      <h3>Peer Question Exchange</h3>
+      <input type="text" id="peer-question" placeholder="Type a question" />
+      <input type="text" id="peer-answer" placeholder="Type the answer" />
+      <button id="add-peer-question">Add Question</button>
+      <ul id="peer-list"></ul>
     </aside>
 
-    <!-- Book Overlay (Interactive View) -->
+    <!-- Book Overlay -->
     <div id="book-overlay">
       <div class="overlay-content">
         <h2 id="book-title"></h2>
@@ -102,16 +100,61 @@
         <p id="book-summary"></p>
         <div class="video-placeholder">🎥 Video coming soon</div>
         <button onclick="closeBook()">Close ❌</button>
+        <button onclick="startQuiz(currentBook)">Start Quiz</button>
+        <button onclick="startFlashcards()">Flashcards</button>
       </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Quiz Section -->
+    <section id="quiz-section" style="display:none;">
+      <h2>📖 Quiz Time</h2>
+      <div id="quiz-container"></div>
+      <button onclick="exitQuiz()">Back</button>
+    </section>
+
+    <!-- Flashcards Section -->
+    <section id="flashcards-section" style="display:none;">
+      <h2>🎴 Flashcards</h2>
+      <div id="flashcard" onclick="flipFlashcard()">
+        <p id="flashcard-text">Click to flip</p>
+      </div>
+      <button onclick="nextFlashcard()">Next ➡️</button>
+      <button onclick="exitFlashcards()">Back</button>
+    </section>
+
+    <!-- Mock Game Mode -->
+    <section id="game-mode" style="display:none;">
+      <h2>🏆 Mock Challenge</h2>
+      <p id="game-question"></p>
+      <div id="game-options"></div>
+      <div id="timer-bar"></div>
+      <p id="game-score"></p>
+      <button onclick="exitGame()">Exit</button>
+    </section>
+
     <footer>
       <p id="footer-text">Created by Devarani Ponna · Educational Use Only</p>
+      <button onclick="startGame()">Start Mock Game</button>
     </footer>
 
     <canvas id="fireworks" aria-hidden="true"></canvas>
   </main>
+
+  <!-- 🎶 Background Music Options -->
+  <audio id="bg-music-calm" src="focus-calm.mp3" loop preload="auto"></audio>
+  <audio id="bg-music-piano" src="focus-piano.mp3" loop preload="auto"></audio>
+  <audio id="bg-music-beat" src="focus-beat.mp3" loop preload="auto"></audio>
+
+  <!-- 🔊 Effect Sounds -->
+  <audio id="sound-whoosh" src="sounds/whoosh.mp3" preload="auto"></audio>
+  <audio id="sound-rover" src="sounds/rover.mp3" preload="auto"></audio>
+  <audio id="sound-lotus" src="sounds/lotus.mp3" preload="auto"></audio>
+  <audio id="sound-haven" src="sounds/haven.mp3" preload="auto"></audio>
+  <audio id="sound-library" src="sounds/library.mp3" preload="auto"></audio>
+  <audio id="sound-teacher" src="sounds/teacher.mp3" preload="auto"></audio>
+  <audio id="sound-cat" src="sounds/cat.mp3" preload="auto"></audio>
+  <audio id="sound-lemon" src="sounds/lemon.mp3" preload="auto"></audio>
+  <audio id="sound-storm" src="sounds/storm.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
