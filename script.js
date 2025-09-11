@@ -1,5 +1,5 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL VERSION WITH FLIPBOOK
+   UBC WEBSITE SCRIPT – FINAL VERSION WITH FLIPBOOK + PAGE SOUND
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -82,8 +82,10 @@ let globalMuted = false;
 
 function playBg(track) {
   Object.values(bgTracks).forEach((t) => {
-    t.pause();
-    t.currentTime = 0;
+    if (t) {
+      t.pause();
+      t.currentTime = 0;
+    }
   });
   const selected = bgTracks[track];
   if (!selected) return;
@@ -127,6 +129,36 @@ globalToggle?.addEventListener("click", () => {
   }
 });
 document.addEventListener("click", () => playBg(currentBg), { once: true });
+
+/* ================== PAGE SOUND TOGGLE ================== */
+let pageSoundsMuted = false;
+const pageSoundToggle = document.getElementById("page-sound-toggle");
+
+pageSoundToggle?.addEventListener("click", () => {
+  pageSoundsMuted = !pageSoundsMuted;
+  pageSoundToggle.textContent = pageSoundsMuted ? "🔇 Page Sounds Off" : "🔊 Page Sounds On";
+});
+
+/* ================== PAGE TURN SOUND ================== */
+function playPageTurn() {
+  if (pageSoundsMuted) return; // muted toggle on
+
+  const turnSound = document.getElementById("sound-whoosh");
+  if (!turnSound) return;
+
+  turnSound.pause();
+  turnSound.currentTime = 0;
+
+  fadeOut(bgTracks[currentBg], 300);
+
+  turnSound.play().then(() => {
+    setTimeout(() => {
+      turnSound.pause();
+      turnSound.currentTime = 0;
+      playBg?.(currentBg);
+    }, 5000);
+  }).catch(()=>{});
+}
 
 /* ================== FIREWORKS ================== */
 const canvas = document.getElementById("fireworks");
@@ -210,50 +242,131 @@ function randomConfettiColor(theme) {
   return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
 
-/* ================== FLIPBOOKS ================== */
-let autoplayInterval = null;
+/* ================== VANILLA FLIPBOOK ================== */
+const FLIPBOOKS = {
+  rover: {
+    dir: "rover",
+    prefix: "Rover_",
+    total: 41,
+    index: 1,
+    imgEl: document.getElementById("rover-page"),
+    wrapEl: document.getElementById("rover-flipbook"),
+    progressEl: document.getElementById("rover-progress"),
+  },
+  haven: {
+    dir: "haven",
+    prefix: "Haven_",
+    total: 8,
+    index: 1,
+    imgEl: document.getElementById("haven-page"),
+    wrapEl: document.getElementById("haven-flipbook"),
+    progressEl: document.getElementById("haven-progress"),
+  },
+};
+
+let autoplayTimer = null;
+
+function preload(src) {
+  const im = new Image();
+  im.src = src;
+  return im;
+}
+
+function updateFlipbook(story) {
+  const fb = FLIPBOOKS[story];
+  const src = `${fb.dir}/${fb.prefix}${fb.index}.png`;
+
+  fb.imgEl.classList.remove("show");
+  setTimeout(() => {
+    fb.imgEl.src = src;
+    fb.imgEl.onload = () => fb.imgEl.classList.add("show");
+  }, 10);
+
+  fb.progressEl.textContent = `${fb.index} / ${fb.total}`;
+
+  if (fb.index < fb.total) preload(`${fb.dir}/${fb.prefix}${fb.index + 1}.png`);
+  if (fb.index > 1) preload(`${fb.dir}/${fb.prefix}${fb.index - 1}.png`);
+}
 
 function openFlipbook(story) {
-  document.getElementById(`${story}-flipbook`).style.display = "flex";
-  let bookDiv = document.getElementById(`${story}-book`);
-  bookDiv.innerHTML = "";
-
-  let pageCount = story === "rover" ? 41 : 8;
-  for (let i = 1; i <= pageCount; i++) {
-    let img = document.createElement("img");
-    img.src = `${story}/${story.charAt(0).toUpperCase() + story.slice(1)}_${i}.png`;
-    bookDiv.appendChild(img);
-  }
-
-  $(`#${story}-book`).turn({
-    width: 800,
-    height: 600,
-    autoCenter: true,
-  });
+  stopAutoplay();
+  const fb = FLIPBOOKS[story];
+  fb.index = 1;
+  fb.wrapEl.style.display = "flex";
+  updateFlipbook(story);
 }
 
 function closeFlipbook(story) {
-  document.getElementById(`${story}-flipbook`).style.display = "none";
   stopAutoplay();
-  $(`#${story}-book`).turn("destroy");
+  FLIPBOOKS[story].wrapEl.style.display = "none";
 }
 
-function startAutoplay(story, speed = 3000) {
+function nextPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index < fb.total) {
+    fb.index++;
+    updateFlipbook(story);
+    playPageTurn();
+  } else {
+    stopAutoplay();
+    try { celebrate?.(story); } catch (e) {}
+  }
+}
+
+function prevPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index > 1) {
+    fb.index--;
+    updateFlipbook(story);
+    playPageTurn();
+  }
+}
+
+function startAutoplay(story, ms = 3000) {
   stopAutoplay();
-  autoplayInterval = setInterval(() => {
-    $(`#${story}-book`).turn("next");
-    let totalPages = $(`#${story}-book`).turn("pages");
-    let currentPage = $(`#${story}-book`).turn("page");
-    if (currentPage >= totalPages) {
+  autoplayTimer = setInterval(() => {
+    const fb = FLIPBOOKS[story];
+    if (fb.index >= fb.total) {
       stopAutoplay();
-      celebrate(story); // 🎆 Celebrate when story finishes
+      try { celebrate?.(story); } catch (e) {}
+    } else {
+      nextPage(story);
     }
-  }, speed);
+  }, ms);
 }
 
 function stopAutoplay() {
-  if (autoplayInterval) {
-    clearInterval(autoplayInterval);
-    autoplayInterval = null;
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer);
+    autoplayTimer = null;
   }
 }
+
+/* ================== KEYBOARD & SWIPE SUPPORT ================== */
+document.addEventListener("keydown", (e) => {
+  const roverOpen = FLIPBOOKS.rover.wrapEl.style.display === "flex";
+  const havenOpen = FLIPBOOKS.haven.wrapEl.style.display === "flex";
+  const active = roverOpen ? "rover" : havenOpen ? "haven" : null;
+  if (!active) return;
+
+  if (e.key === "ArrowRight") nextPage(active);
+  if (e.key === "ArrowLeft") prevPage(active);
+  if (e.key.toLowerCase() === " ") {
+    if (autoplayTimer) stopAutoplay(); else startAutoplay(active);
+    e.preventDefault();
+  }
+});
+
+function addSwipe(el, onLeft, onRight) {
+  let x0 = null;
+  el.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  el.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    let dx = e.changedTouches[0].clientX - x0;
+    if (dx < -30) onLeft();
+    if (dx > 30) onRight();
+    x0 = null;
+  }, { passive: true });
+}
+addSwipe(FLIPBOOKS.rover.wrapEl, () => nextPage("rover"), () => prevPage("rover"));
+addSwipe(FLIPBOOKS.haven.wrapEl, () => nextPage("haven"), () => prevPage("haven"));
