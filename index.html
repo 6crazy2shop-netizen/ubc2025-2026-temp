@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UBC 2025–2026</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,139 +15,142 @@
 
   <!-- Splash Screen -->
   <div id="splash-screen" class="center" style="display:none;">
-    <h1 class="sparkle">UBC 2025–2026</h1>
-    <p>Edit your team name:</p>
+    <h1 class="sparkle" data-key="splashTitle">UBC 2025–2026</h1>
+    <p data-key="teamPromptSplash">Edit your team name:</p>
     <input type="text" id="team-name-splash" placeholder="Team Name" />
-    <button id="start-btn">Start Adventure 🚀</button>
+    <button id="start-btn" data-key="startBtn">Start Adventure 🚀</button>
     <canvas id="splash-confetti"></canvas>
   </div>
 
   <!-- Password Screen -->
   <div id="password-screen" class="center" style="display:none;">
-    <h2>Enter Password</h2>
+    <h2 data-key="pwTitle">Enter Password</h2>
     <input type="password" id="password-input" placeholder="Password" />
-    <button id="pw-btn">Submit</button>
+    <button id="pw-btn" data-key="pwBtn">Submit</button>
     <p id="error-message"></p>
   </div>
 
   <!-- Main Content -->
   <main id="main-content" style="display:none;">
     <header>
-      <h1>Ultimate Book Challenge 2025–2026</h1>
+      <h1 data-key="mainTitle">Ultimate Book Challenge 2025–2026</h1>
       <div class="controls">
         <button id="mode-toggle">🌙 Dark Mode</button>
         <button id="lang-toggle">🌐 Español</button>
         <button id="friends-toggle">👥 Friends</button>
-        <button id="page-sound-toggle">🔊 Page Sounds On</button>
       </div>
-      <p>Edit your team name below:</p>
+      <p data-key="teamPromptMain">Edit your team name below:</p>
       <input type="text" id="team-name" placeholder="Team Name" />
     </header>
 
     <!-- Book Grid -->
     <div class="book-grid">
-      <section class="book" onclick="openFlipbook('rover')">
-        <h2>A Rover’s Story</h2>
-        <img src="rover/Rover_1.png" alt="Rover cover" />
-        <button onclick="celebrate('rover');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('rover')">
+        <h2 data-key="roverTitle">A Rover’s Story</h2>
+        <img src="rover/cover.png" alt="A Rover’s Story cover" />
+        <button onclick="celebrate('rover');event.stopPropagation();" data-key="roverBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('haven')">
-        <h2>Haven</h2>
-        <img src="haven/Haven_1.png" alt="Haven cover" />
-        <button onclick="celebrate('haven');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('lotus')">
+        <h2 data-key="lotusTitle">Legends of Lotus Island</h2>
+        <img src="lotus/cover.png" alt="Lotus Island cover" />
+        <button onclick="celebrate('lotus');event.stopPropagation();" data-key="lotusBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('cat')">
-        <h2>Cat in Space</h2>
-        <img src="Cat_in_space/Cat_1.png" alt="Cat cover" />
-        <button onclick="celebrate('cat');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('haven')">
+        <h2 data-key="havenTitle">Haven: A Small Cat’s Big Adventure</h2>
+        <img src="haven/Haven_cover_page.png" alt="Haven cover" />
+        <button onclick="celebrate('haven');event.stopPropagation();" data-key="havenBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('storm')">
-        <h2>I Survived</h2>
-        <img src="I_survived/Storm_1.png" alt="Storm cover" />
-        <button onclick="celebrate('storm');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('library')">
+        <h2 data-key="libraryTitle">The Lost Library</h2>
+        <img src="library/cover.png" alt="Lost Library cover" />
+        <button onclick="celebrate('library');event.stopPropagation();" data-key="libraryBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('lotus')">
-        <h2>Lotus Island</h2>
-        <img src="Lotus_island/Lotus_1.png" alt="Lotus cover" />
-        <button onclick="celebrate('lotus');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('teacher')">
+        <h2 data-key="teacherTitle">The Superteacher Project</h2>
+        <img src="super_teacher/cover.png" alt="Superteacher cover" />
+        <button onclick="celebrate('teacher');event.stopPropagation();" data-key="teacherBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('lemon')">
-        <h2>Mr. Lemoncello</h2>
-        <img src="Mr.Lemoncello/Lemon_1.png" alt="Lemoncello cover" />
-        <button onclick="celebrate('lemon');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('cat')">
+        <h2 data-key="catTitle">The First Cat in Space Ate Pizza</h2>
+        <img src="cat_in_space/cover.png" alt="Cat in Space cover" />
+        <button onclick="celebrate('cat');event.stopPropagation();" data-key="catBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('teacher')">
-        <h2>Superteacher</h2>
-        <img src="Super_teacher/Teacher_1.png" alt="Teacher cover" />
-        <button onclick="celebrate('teacher');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('lemon')">
+        <h2 data-key="lemonTitle">Escape from Mr. Lemoncello’s Library</h2>
+        <img src="mr_lemoncello/cover.png" alt="Mr. Lemoncello cover" />
+        <button onclick="celebrate('lemon');event.stopPropagation();" data-key="lemonBtn">Let’s Dig It 🚀</button>
       </section>
-      <section class="book" onclick="openFlipbook('library')">
-        <h2>The Lost Library</h2>
-        <img src="library/Library_1.png" alt="Library cover" />
-        <button onclick="celebrate('library');event.stopPropagation();">Let’s Dig It 🚀</button>
+      <section class="book" onclick="openBook('storm')">
+        <h2 data-key="stormTitle">I Survived the Galveston Hurricane</h2>
+        <img src="i_survived/cover.png" alt="I Survived cover" />
+        <button onclick="celebrate('storm');event.stopPropagation();" data-key="stormBtn">Let’s Dig It 🚀</button>
       </section>
     </div>
 
-    <!-- Friends Sidebar -->
+    <!-- Flipbook Overlays -->
+    <div id="flipbooks">
+      <!-- Haven Example -->
+      <div id="haven-flipbook" class="flipbook">
+        <img id="haven-page" src="" alt="Haven page" />
+        <div class="flip-controls">
+          <button onclick="prevPage('haven')">⬅ Prev</button>
+          <button onclick="nextPage('haven')">Next ➡</button>
+          <button onclick="startAutoplay('haven')">▶ Auto</button>
+          <button onclick="stopAutoplay()">⏹ Stop</button>
+          <button onclick="readAloud('haven')">🔊 Read Aloud</button>
+          <button onclick="closeFlipbook('haven')">❌ Close</button>
+        </div>
+        <p id="haven-progress" class="progress"></p>
+      </div>
+
+      <!-- Rover Example -->
+      <div id="rover-flipbook" class="flipbook">
+        <img id="rover-page" src="" alt="Rover page" />
+        <div class="flip-controls">
+          <button onclick="prevPage('rover')">⬅ Prev</button>
+          <button onclick="nextPage('rover')">Next ➡</button>
+          <button onclick="startAutoplay('rover')">▶ Auto</button>
+          <button onclick="stopAutoplay()">⏹ Stop</button>
+          <button onclick="readAloud('rover')">🔊 Read Aloud</button>
+          <button onclick="closeFlipbook('rover')">❌ Close</button>
+        </div>
+        <p id="rover-progress" class="progress"></p>
+      </div>
+
+      <!-- Repeat similar blocks for lotus, library, teacher, cat, lemon, storm -->
+    </div>
+
+    <!-- Quiz Overlay -->
+    <div class="quiz-overlay" id="quiz-overlay">
+      <div class="quiz-content">
+        <h2 id="quiz-question">Question will appear here</h2>
+        <div id="quiz-options"></div>
+        <button id="quiz-read-btn">🔊 Read Question</button>
+        <div id="quiz-feedback" class="quiz-feedback"></div>
+        <button onclick="closeQuiz()">Close ❌</button>
+      </div>
+    </div>
+
+    <!-- Team Notes Sidebar -->
     <aside id="friends-panel">
       <h2>Team Notes (Team: <span id="team-name-display"></span>)</h2>
       <textarea id="team-notes" placeholder="Type here..."></textarea>
       <button id="save-notes">Save Notes</button>
     </aside>
 
-    <!-- Flipbook Overlays -->
-    <div id="flipbook-overlays">
-      <div id="rover-flipbook" class="flipbook-container"><div class="flipbook-card">
-        <h2>Rover</h2>
-        <div class="flipbook-stage"><img id="rover-page" class="flipbook-page" /></div>
-        <div class="flipbook-controls">
-          <button onclick="prevPage('rover')">⬅ Prev</button>
-          <button onclick="nextPage('rover')">Next ➡</button>
-          <button onclick="startAutoplay('rover')">▶ Auto</button>
-          <button onclick="stopAutoplay()">⏸ Stop</button>
-          <button onclick="closeFlipbook('rover')">❌ Close</button>
-        </div>
-        <p id="rover-progress"></p>
-      </div></div>
-      <!-- Haven -->
-      <div id="haven-flipbook" class="flipbook-container"><div class="flipbook-card">
-        <h2>Haven</h2>
-        <div class="flipbook-stage"><img id="haven-page" class="flipbook-page" /></div>
-        <div class="flipbook-controls">
-          <button onclick="prevPage('haven')">⬅ Prev</button>
-          <button onclick="nextPage('haven')">Next ➡</button>
-          <button onclick="startAutoplay('haven')">▶ Auto</button>
-          <button onclick="stopAutoplay()">⏸ Stop</button>
-          <button onclick="closeFlipbook('haven')">❌ Close</button>
-        </div>
-        <p id="haven-progress"></p>
-      </div></div>
-      <!-- Cat, Storm, Lotus, Lemon, Teacher, Library overlays (same structure as above) -->
-      <div id="cat-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>Cat in Space</h2><div class="flipbook-stage"><img id="cat-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('cat')">⬅ Prev</button><button onclick="nextPage('cat')">Next ➡</button><button onclick="startAutoplay('cat')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('cat')">❌ Close</button></div><p id="cat-progress"></p></div></div>
-      <div id="storm-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>I Survived</h2><div class="flipbook-stage"><img id="storm-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('storm')">⬅ Prev</button><button onclick="nextPage('storm')">Next ➡</button><button onclick="startAutoplay('storm')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('storm')">❌ Close</button></div><p id="storm-progress"></p></div></div>
-      <div id="lotus-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>Lotus Island</h2><div class="flipbook-stage"><img id="lotus-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('lotus')">⬅ Prev</button><button onclick="nextPage('lotus')">Next ➡</button><button onclick="startAutoplay('lotus')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('lotus')">❌ Close</button></div><p id="lotus-progress"></p></div></div>
-      <div id="lemon-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>Lemoncello</h2><div class="flipbook-stage"><img id="lemon-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('lemon')">⬅ Prev</button><button onclick="nextPage('lemon')">Next ➡</button><button onclick="startAutoplay('lemon')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('lemon')">❌ Close</button></div><p id="lemon-progress"></p></div></div>
-      <div id="teacher-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>Superteacher</h2><div class="flipbook-stage"><img id="teacher-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('teacher')">⬅ Prev</button><button onclick="nextPage('teacher')">Next ➡</button><button onclick="startAutoplay('teacher')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('teacher')">❌ Close</button></div><p id="teacher-progress"></p></div></div>
-      <div id="library-flipbook" class="flipbook-container"><div class="flipbook-card"><h2>Lost Library</h2><div class="flipbook-stage"><img id="library-page" class="flipbook-page" /></div><div class="flipbook-controls"><button onclick="prevPage('library')">⬅ Prev</button><button onclick="nextPage('library')">Next ➡</button><button onclick="startAutoplay('library')">▶ Auto</button><button onclick="stopAutoplay()">⏸ Stop</button><button onclick="closeFlipbook('library')">❌ Close</button></div><p id="library-progress"></p></div></div>
-    </div>
+    <!-- Footer -->
+    <footer>
+      <p id="footer-text">Created by Devarani Ponna · Educational Use Only</p>
+    </footer>
 
-    <footer><p id="footer-text">Created by Devarani Ponna · Educational Use Only</p></footer>
     <canvas id="fireworks" aria-hidden="true"></canvas>
   </main>
 
-  <!-- Audio -->
-  <audio id="sound-whoosh" src="sounds/whoosh.mp3" preload="auto"></audio>
-  <audio id="bg-music-calm" src="sounds/bg-music-calm.mp3" preload="auto" loop></audio>
-  <audio id="bg-music-piano" src="sounds/bg-music-piano.mp3" preload="auto" loop></audio>
-  <audio id="bg-music-beat" src="sounds/bg-music-beat.mp3" preload="auto" loop></audio>
-  <audio id="sound-rover" src="sounds/rover.mp3" preload="auto"></audio>
-  <audio id="sound-haven" src="sounds/haven.mp3" preload="auto"></audio>
-  <audio id="sound-cat" src="sounds/cat.mp3" preload="auto"></audio>
-  <audio id="sound-storm" src="sounds/storm.mp3" preload="auto"></audio>
-  <audio id="sound-lotus" src="sounds/lotus.mp3" preload="auto"></audio>
-  <audio id="sound-lemon" src="sounds/lemon.mp3" preload="auto"></audio>
-  <audio id="sound-teacher" src="sounds/teacher.mp3" preload="auto"></audio>
-  <audio id="sound-library" src="sounds/library.mp3" preload="auto"></audio>
+  <!-- Background music -->
+  <audio id="bg-music-calm" src="sounds/focus_calm.mp3" loop></audio>
+  <audio id="bg-music-piano" src="sounds/focus_piano.mp3" loop></audio>
+  <audio id="bg-music-beat" src="sounds/focus_beat.mp3" loop></audio>
+  <audio id="sound-whoosh" src="sounds/page_turn.mp3"></audio>
 
   <script src="script.js"></script>
 </body>
