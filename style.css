@@ -1,27 +1,20 @@
-/* =========================================================
-   UBC WEBSITE STYLE – FINAL VERSION
-   ========================================================= */
-
 :root {
   --bg: #f6f7fb;
   --fg: #222;
   --card: #fff;
   --accent: #3366ff;
-  --accent-light: #6699ff;
-  --danger: #ff4d4d;
-  --success: #33cc33;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--fg);
   text-align: center;
+  line-height: 1.5;
 }
 
-/* ================== DARK MODE ================== */
+/* Dark mode */
 body.dark-mode {
   --bg: #2c2c2c;
   --fg: #f0f0f0;
@@ -29,7 +22,7 @@ body.dark-mode {
   --accent: #6699ff;
 }
 
-/* ================== LOADING SCREEN ================== */
+/* Loading screen */
 #loading-screen {
   position: fixed;
   inset: 0;
@@ -58,12 +51,14 @@ body.dark-mode {
   50% { opacity: 1; }
 }
 
-/* ================== SPLASH + PASSWORD ================== */
+/* Splash */
 .sparkle { font-size: 28px; animation: sparkle 1.5s infinite; }
 @keyframes sparkle {
   0%,100% { text-shadow: 0 0 6px #fff; }
   50% { text-shadow: 0 0 12px gold; }
 }
+
+/* Password + splash boxes */
 .center {
   max-width: 420px;
   margin: 12vh auto 0;
@@ -74,13 +69,26 @@ body.dark-mode {
 }
 .center input { width: 100%; padding: 12px; margin: 10px 0; }
 
-/* ================== BOOK GRID ================== */
+/* Controls (toggle buttons) */
+.controls { margin: 10px 0; }
+.controls button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+/* Book grid */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
 }
 .book {
@@ -101,9 +109,8 @@ body.dark-mode {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
-button {
-  margin-top: 12px;
+.book button {
+  margin-top: 8px;
   padding: 10px 16px;
   background: var(--accent);
   color: white;
@@ -111,60 +118,95 @@ button {
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s ease;
-}
-button:hover {
-  background: var(--accent-light);
 }
 
-/* ================== CONTROLS ================== */
-.controls { margin: 10px 0; }
-#mode-toggle, #lang-toggle, #friends-toggle, #music-toggle, #global-toggle, #page-sound-toggle {
+/* Flipbooks */
+.flipbook {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+.flipbook img {
+  max-width: 80%;
+  max-height: 70%;
+  border-radius: 8px;
+  background: white;
+  padding: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.flipbook img.show { opacity: 1; }
+.flip-controls {
+  margin-top: 12px;
+}
+.flip-controls button {
+  margin: 5px;
+  padding: 8px 14px;
   background: var(--accent);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 14px;
+  border-radius: 6px;
   cursor: pointer;
-  margin: 4px;
 }
+.progress { color: white; margin-top: 6px; }
 
-/* ================== FOOTER ================== */
-footer {
-  margin-top: 40px;
-  padding: 16px;
-  font-size: 0.8em;
-  color: #555;
-}
-
-/* ================== FIREWORKS + CONFETTI ================== */
-#fireworks, #splash-confetti {
+/* Quiz Overlay */
+.quiz-overlay {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1600;
 }
-.confetti {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  top: -10px;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: fall linear forwards;
+.quiz-content {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
 }
-@keyframes fall {
-  to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+.quiz-content h2 { margin-bottom: 16px; font-size: 20px; }
+#quiz-options button {
+  display: block;
+  margin: 8px auto;
+  padding: 10px 14px;
+  width: 80%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#quiz-feedback {
+  margin-top: 12px;
+  font-weight: bold;
+}
+#quiz-read-btn {
+  background: #ff9933;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-top: 12px;
 }
 
-/* ================== FRIENDS PANEL ================== */
+/* Friends Sidebar */
 #friends-panel {
   position: fixed;
   top: 0;
-  right: -320px;
-  width: 320px;
+  right: -300px;
+  width: 300px;
   height: 100%;
   background: var(--card);
   box-shadow: -4px 0 8px rgba(0,0,0,0.2);
@@ -178,75 +220,35 @@ footer {
   height: 60%;
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 6px;
 }
 
-/* ================== FLIPBOOK ================== */
-.flipbook {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1200;
-}
-.flipbook img {
-  width: 90%;
-  max-width: 700px;
-  height: auto;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.flipbook img.show { opacity: 1; }
-.flip-controls {
-  margin-top: 12px;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-.flip-controls button {
-  padding: 8px 14px;
-  font-size: 14px;
-}
-.progress {
-  margin-top: 8px;
-  font-size: 0.9em;
+/* Footer */
+footer {
+  margin-top: 40px;
+  padding: 16px;
+  font-size: 0.8em;
+  color: #555;
 }
 
-/* ================== QUIZ OVERLAY ================== */
-.quiz-overlay {
+/* Fireworks */
+#fireworks, #splash-confetti {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1500;
-}
-.quiz-content {
-  background: var(--card);
-  padding: 24px;
-  border-radius: 10px;
-  max-width: 480px;
-  width: 90%;
-  text-align: left;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-}
-.quiz-content h2 {
-  margin-bottom: 12px;
-}
-.quiz-content button {
-  display: block;
-  margin: 8px 0;
   width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
-.quiz-feedback {
-  margin-top: 12px;
-  font-weight: bold;
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  top: -10px;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
