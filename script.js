@@ -1,5 +1,5 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL VERSION WITH FLIPBOOK + QUIZ + READ ALOUD
+   UBC WEBSITE SCRIPT – FINAL VERSION (ALL FEATURES)
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -103,17 +103,37 @@ function fadeOut(audio, duration = 1000) {
 }
 document.addEventListener("click", () => playBg(currentBg), { once: true });
 
+/* ================== PAGE TURN SOUND ================== */
+function playPageTurn() {
+  const turnSound = document.getElementById("sound-whoosh");
+  if (!turnSound) return;
+  fadeOut(bgTracks[currentBg], 300);
+  turnSound.pause();
+  turnSound.currentTime = 0;
+  turnSound.play().then(() => {
+    setTimeout(() => {
+      turnSound.pause();
+      turnSound.currentTime = 0;
+      playBg?.(currentBg);
+    }, 5000);
+  }).catch(()=>{});
+}
+
 /* ================== FIREWORKS ================== */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
-function fit() { canvas.width = innerWidth; canvas.height = innerHeight; }
-addEventListener("resize", fit); fit();
-
+function fit() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+addEventListener("resize", fit);
+fit();
 function burst(x, y) {
   const parts = [];
   for (let i = 0; i < 120; i++) {
     parts.push({
-      x, y,
+      x,
+      y,
       vx: (Math.random() - 0.5) * 8,
       vy: (Math.random() - 0.5) * 8,
       r: Math.random() * 2 + 1.8,
@@ -135,7 +155,8 @@ function burst(x, y) {
       ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.a})`;
       ctx.fill();
     });
-    t++; if (t < 140) requestAnimationFrame(tick);
+    t++;
+    if (t < 140) requestAnimationFrame(tick);
   }
   tick();
 }
@@ -178,23 +199,41 @@ function randomConfettiColor(theme) {
   return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
 
-/* ================== FLIPBOOK CORE ================== */
+/* ================== FLIPBOOKS ================== */
 const FLIPBOOKS = {
-  haven: {
-    dir: "haven", prefix: "Haven_", total: 138,
-    index: 1, imgEl: document.getElementById("haven-page"),
-    wrapEl: document.getElementById("haven-flipbook"),
-    progressEl: document.getElementById("haven-progress"),
-  },
-  rover: {
-    dir: "rover", prefix: "Rover_", total: 41,
-    index: 1, imgEl: document.getElementById("rover-page"),
-    wrapEl: document.getElementById("rover-flipbook"),
-    progressEl: document.getElementById("rover-progress"),
-  }
-  // TODO: add lotus, library, teacher, cat, lemon, storm with totals
+  haven: { dir: "haven", prefix: "Haven_", total: 138, index: 1,
+           imgEl: document.getElementById("haven-page"),
+           wrapEl: document.getElementById("haven-flipbook"),
+           progressEl: document.getElementById("haven-progress") },
+  rover: { dir: "rover", prefix: "Rover_", total: 41, index: 1,
+           imgEl: document.getElementById("rover-page"),
+           wrapEl: document.getElementById("rover-flipbook"),
+           progressEl: document.getElementById("rover-progress") },
+  lotus: { dir: "lotus", prefix: "Lotus_", total: 160, index: 1,
+           imgEl: document.getElementById("lotus-page"),
+           wrapEl: document.getElementById("lotus-flipbook"),
+           progressEl: document.getElementById("lotus-progress") },
+  library: { dir: "library", prefix: "Library_", total: 224, index: 1,
+           imgEl: document.getElementById("library-page"),
+           wrapEl: document.getElementById("library-flipbook"),
+           progressEl: document.getElementById("library-progress") },
+  teacher: { dir: "super_teacher", prefix: "Teacher_", total: 304, index: 1,
+           imgEl: document.getElementById("teacher-page"),
+           wrapEl: document.getElementById("teacher-flipbook"),
+           progressEl: document.getElementById("teacher-progress") },
+  cat: { dir: "cat_in_space", prefix: "Cat_", total: 320, index: 1,
+           imgEl: document.getElementById("cat-page"),
+           wrapEl: document.getElementById("cat-flipbook"),
+           progressEl: document.getElementById("cat-progress") },
+  lemon: { dir: "mr_lemoncello", prefix: "Lemoncello_", total: 336, index: 1,
+           imgEl: document.getElementById("lemon-page"),
+           wrapEl: document.getElementById("lemon-flipbook"),
+           progressEl: document.getElementById("lemon-progress") },
+  storm: { dir: "i_survived", prefix: "Survived_", total: 144, index: 1,
+           imgEl: document.getElementById("storm-page"),
+           wrapEl: document.getElementById("storm-flipbook"),
+           progressEl: document.getElementById("storm-progress") },
 };
-
 let autoplayTimer = null;
 
 function preload(src) { const im = new Image(); im.src = src; return im; }
@@ -208,13 +247,33 @@ function updateFlipbook(story) {
   }, 10);
   fb.progressEl.textContent = `${fb.index} / ${fb.total}`;
   if (fb.index < fb.total) preload(`${fb.dir}/${fb.prefix}${fb.index + 1}.png`);
+  if (fb.index > 1) preload(`${fb.dir}/${fb.prefix}${fb.index - 1}.png`);
 }
-function openFlipbook(story) { stopAutoplay(); const fb = FLIPBOOKS[story]; fb.index = 1; fb.wrapEl.style.display = "flex"; updateFlipbook(story); }
+function openFlipbook(story) {
+  stopAutoplay();
+  FLIPBOOKS[story].index = 1;
+  FLIPBOOKS[story].wrapEl.style.display = "flex";
+  updateFlipbook(story);
+}
 function closeFlipbook(story) { stopAutoplay(); FLIPBOOKS[story].wrapEl.style.display = "none"; }
-function nextPage(story) { const fb = FLIPBOOKS[story]; if (fb.index < fb.total) { fb.index++; updateFlipbook(story);} }
-function prevPage(story) { const fb = FLIPBOOKS[story]; if (fb.index > 1) { fb.index--; updateFlipbook(story);} }
-function startAutoplay(story, ms=3000) { stopAutoplay(); autoplayTimer = setInterval(() => { const fb = FLIPBOOKS[story]; if (fb.index>=fb.total) stopAutoplay(); else nextPage(story); }, ms); }
-function stopAutoplay() { if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer=null; } }
+function nextPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index < fb.total) { fb.index++; updateFlipbook(story); playPageTurn(); }
+  else { stopAutoplay(); celebrate?.(story); showQuiz(story); }
+}
+function prevPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index > 1) { fb.index--; updateFlipbook(story); playPageTurn(); }
+}
+function startAutoplay(story, ms = 3000) {
+  stopAutoplay();
+  autoplayTimer = setInterval(() => {
+    const fb = FLIPBOOKS[story];
+    if (fb.index >= fb.total) { stopAutoplay(); celebrate?.(story); showQuiz(story); }
+    else { nextPage(story); }
+  }, ms);
+}
+function stopAutoplay() { if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; } }
 
 /* ================== KEYBOARD & SWIPE ================== */
 document.addEventListener("keydown", (e) => {
@@ -222,10 +281,7 @@ document.addEventListener("keydown", (e) => {
   if (!active) return;
   if (e.key === "ArrowRight") nextPage(active);
   if (e.key === "ArrowLeft") prevPage(active);
-  if (e.key.toLowerCase() === " ") {
-    if (autoplayTimer) stopAutoplay(); else startAutoplay(active);
-    e.preventDefault();
-  }
+  if (e.key.toLowerCase() === " ") { if (autoplayTimer) stopAutoplay(); else startAutoplay(active); e.preventDefault(); }
 });
 function addSwipe(el, onLeft, onRight) {
   let x0 = null;
@@ -238,89 +294,131 @@ function addSwipe(el, onLeft, onRight) {
     x0 = null;
   }, { passive: true });
 }
-Object.values(FLIPBOOKS).forEach(fb => addSwipe(fb.wrapEl, () => nextPage(fb.dir), () => prevPage(fb.dir)));
+Object.keys(FLIPBOOKS).forEach(k => addSwipe(FLIPBOOKS[k].wrapEl, () => nextPage(k), () => prevPage(k)));
 
-/* ================== READ ALOUD FOR BOOK PAGES ================== */
-const PAGE_TEXTS = {
-  haven: {
-    "Haven_1.png": "Haven cover page.",
-    "Haven_page1.png": "Haven woke to the smell of rising dough...",
-    // Extend as needed
-  },
-  rover: {
-    "Rover_1.png": "Rover cover page.",
-    // Extend as needed
-  }
-};
+/* ================== READ ALOUD ================== */
 function readAloud(story) {
   const fb = FLIPBOOKS[story];
-  const pageSrc = `${fb.prefix}${fb.index}.png`;
-  const text = PAGE_TEXTS[story]?.[pageSrc] || "No text available for this page.";
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = (currentLang === "es") ? "es-ES" : "en-US";
-  utterance.rate = 1; utterance.pitch = 1;
-  speechSynthesis.cancel(); speechSynthesis.speak(utterance);
+  if (!fb) return;
+  const pageText = fb.progressEl.textContent || `${story} page ${fb.index}`;
+  const utterance = new SpeechSynthesisUtterance(pageText);
+  utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
+  speechSynthesis.speak(utterance);
 }
 
 /* ================== QUIZ SYSTEM ================== */
-const QUIZZES = {
-  haven: [
-    { q: "What smell woke Haven?", options: ["Bread", "Pizza", "Rain"], answer: "Bread" },
-    { q: "Who took Haven in?", options: ["Ma Millie", "Rover", "Teacher"], answer: "Ma Millie" }
-  ],
-  rover: [
-    { q: "Where does Rover travel?", options: ["Mars", "Moon", "Ocean"], answer: "Mars" }
-  ]
-};
-let currentQuiz = null;
-function showQuiz(story) {
-  currentQuiz = QUIZZES[story][0];
-  document.getElementById("quiz-question").textContent = currentQuiz.q;
-  const optionsContainer = document.getElementById("quiz-options");
-  optionsContainer.innerHTML = "";
-  currentQuiz.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.onclick = () => checkQuizAnswer(story, opt);
-    optionsContainer.appendChild(btn);
-  });
-  document.getElementById("quiz-overlay").style.display = "flex";
-  readQuizAloud();
-}
-function closeQuiz() { document.getElementById("quiz-overlay").style.display = "none"; }
-function checkQuizAnswer(story, opt) {
-  const feedback = document.getElementById("quiz-feedback");
-  feedback.textContent = (opt === currentQuiz.answer) ? "✅ Correct!" : "❌ Try again!";
-}
-
-/* ================== READ ALOUD FOR QUIZZES ================== */
+const quizOverlay = document.getElementById("quiz-overlay");
+const quizQuestion = document.getElementById("quiz-question");
+const quizOptions = document.getElementById("quiz-options");
+const quizFeedback = document.getElementById("quiz-feedback");
 const quizReadBtn = document.getElementById("quiz-read-btn");
-function readQuizAloud() {
-  const question = document.getElementById("quiz-question")?.textContent || "";
-  const options = [...document.querySelectorAll("#quiz-options button")]
-    .map((btn, i) => `Option ${i+1}: ${btn.textContent}`)
-    .join(". ");
-  const text = `${question}. ${options}`;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = (currentLang === "es") ? "es-ES" : "en-US";
-  utterance.rate = 1; utterance.pitch = 1;
-  speechSynthesis.cancel(); speechSynthesis.speak(utterance);
-}
-quizReadBtn?.addEventListener("click", readQuizAloud);
 
-/* ================== LANGUAGE TOGGLE ================== */
-const translations = { en: { mainTitle:"Ultimate Book Challenge 2025–2026"}, es: { mainTitle:"Desafío de Libros 2025–2026"} };
-let currentLang = localStorage.getItem("ubc_lang") || "en";
+const QUIZZES = {
+  haven: { q: "What animal is Haven?", opts: ["Dog","Cat","Bird"], ans: "Cat" },
+  rover: { q: "Where does Rover explore?", opts: ["Mars","Moon","Ocean"], ans: "Mars" },
+};
+function showQuiz(story) {
+  const q = QUIZZES[story];
+  if (!q) return;
+  quizOverlay.style.display = "flex";
+  quizQuestion.textContent = q.q;
+  quizOptions.innerHTML = "";
+  q.opts.forEach(opt => {
+    const b = document.createElement("button");
+    b.textContent = opt;
+    b.onclick = () => {
+      if (opt === q.ans) { quizFeedback.textContent = "✅ Correct!"; celebrate(story); }
+      else { quizFeedback.textContent = "❌ Try again."; }
+    };
+    quizOptions.appendChild(b);
+  });
+  quizFeedback.textContent = "";
+}
+function closeQuiz() { quizOverlay.style.display = "none"; }
+quizReadBtn?.addEventListener("click", () => {
+  const utterance = new SpeechSynthesisUtterance(quizQuestion.textContent);
+  utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
+  speechSynthesis.speak(utterance);
+});
+
+/* ================== LANGUAGE + DARK MODE + FRIENDS ================== */
+const modeBtn = document.getElementById("mode-toggle");
+if (localStorage.getItem("ubc_mode") === "dark") {
+  document.body.classList.add("dark-mode");
+  if (modeBtn) modeBtn.textContent = "☀️ Light Mode";
+}
+modeBtn?.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const dark = document.body.classList.contains("dark-mode");
+  modeBtn.textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  localStorage.setItem("ubc_mode", dark ? "dark" : "light");
+});
+
+const translations = {
+  en: {
+    splashTitle: "UBC 2025–2026",
+    teamPromptSplash: "Edit your team name:",
+    startBtn: "Start Adventure 🚀",
+    pwTitle: "Enter Password",
+    pwBtn: "Submit",
+    mainTitle: "Ultimate Book Challenge 2025–2026",
+    teamPromptMain: "Edit your team name below:",
+    havenTitle: "Haven",
+    havenBtn: "Celebrate Haven 🐾",
+    roverTitle: "A Rover’s Story",
+    roverBtn: "Celebrate Rover 🚀"
+  },
+  es: {
+    splashTitle: "UBC 2025–2026",
+    teamPromptSplash: "Edita el nombre de tu equipo:",
+    startBtn: "Comenzar Aventura 🚀",
+    pwTitle: "Ingresar Contraseña",
+    pwBtn: "Enviar",
+    mainTitle: "Desafío de Libros 2025–2026",
+    teamPromptMain: "Edita el nombre de tu equipo abajo:",
+    havenTitle: "Haven",
+    havenBtn: "Celebrar Haven 🐾",
+    roverTitle: "La Historia de Rover",
+    roverBtn: "Celebrar Rover 🚀"
+  }
+};
+
 function applyLanguage(lang) {
   document.querySelectorAll("[data-key]").forEach(el => {
     const key = el.getAttribute("data-key");
     if (translations[lang][key]) el.textContent = translations[lang][key];
   });
 }
-applyLanguage(currentLang);
+
 const langBtn = document.getElementById("lang-toggle");
+let currentLang = localStorage.getItem("ubc_lang") || "en";
+applyLanguage(currentLang);
+if (langBtn) langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
+
 langBtn?.addEventListener("click", () => {
   currentLang = currentLang === "en" ? "es" : "en";
   localStorage.setItem("ubc_lang", currentLang);
   applyLanguage(currentLang);
+  langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
 });
+
+/* ================== TEAM NOTES (Friends Panel) ================== */
+const friendsBtn = document.getElementById("friends-toggle");
+const friendsPanel = document.getElementById("friends-panel");
+const notesArea = document.getElementById("team-notes");
+const saveNotesBtn = document.getElementById("save-notes");
+const teamDisplay = document.getElementById("team-name-display");
+
+notesArea.value = localStorage.getItem("teamNotes") || "";
+teamDisplay.textContent = localStorage.getItem("teamName") || "Unknown";
+
+friendsBtn?.addEventListener("click", () => {
+  friendsPanel.classList.toggle("open");
+});
+
+saveNotesBtn?.addEventListener("click", () => {
+  localStorage.setItem("teamNotes", notesArea.value);
+  alert("Notes saved!");
+});
+
+/* ================== END OF SCRIPT ================== */
