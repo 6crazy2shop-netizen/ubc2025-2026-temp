@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "What is the name of the library in the story?", 
+      "opts": ["Lost Library", "Magic Library", "Secret Library", "Open Library"], 
+      "ans": "Lost Library", 
+      "explanation": "The Lost Library hides many secrets." }
+  ]
+}
