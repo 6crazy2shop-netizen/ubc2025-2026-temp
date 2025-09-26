@@ -1,5 +1,5 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL VERSION WITH QUIZ LOADER
+   UBC WEBSITE SCRIPT – FINAL MERGED VERSION
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -186,7 +186,7 @@ function randomConfettiColor(theme) {
   return themeColors[Math.floor(Math.random() * themeColors.length)];
 }
 
-/* ================== SCORING SYSTEM ================== */
+/* ================== SCORING ================== */
 let playerScore = 0;
 function updateScore(points) {
   playerScore += points;
@@ -196,33 +196,53 @@ function updateScore(points) {
 function checkMilestone() {
   if (playerScore > 0 && playerScore % 50 === 0) {
     document.getElementById("sound-nextlevel").play();
-
     const scoreboard = document.getElementById("scoreboard");
     scoreboard.classList.add("level-up");
-
     setTimeout(() => scoreboard.classList.remove("level-up"), 3000);
-
     alert("🎉 Next Level! You’ve earned " + playerScore + " points!");
   }
 }
 
 /* ================== QUIZ LOADER ================== */
 let QUIZ_DATA = {};
-
-// Load quiz JSON for a given book
 function loadQuiz(story) {
   fetch(`quizzes/${story}_quiz.json`)
     .then(res => res.json())
-    .then(data => {
-      QUIZ_DATA[story] = data;
-      console.log(`✅ Loaded quiz for ${story}`);
-    })
+    .then(data => { QUIZ_DATA[story] = data; })
     .catch(err => console.error(`⚠️ Quiz for ${story} not found`, err));
 }
-
-// Preload all quizzes
 ["Haven", "Rover", "Lotus", "Library", "Teacher", "Cat", "Lemoncello", "Survived"]
   .forEach(loadQuiz);
+
+/* ================== REVIEW LOG ================== */
+let REVIEW_LOG = JSON.parse(localStorage.getItem("reviewLog") || "[]");
+function logMistake(question, chosen, correct, explanation, story, chapter) {
+  const entry = { story, chapter, question, chosen, correct, explanation, timestamp: new Date().toISOString() };
+  REVIEW_LOG.push(entry);
+  localStorage.setItem("reviewLog", JSON.stringify(REVIEW_LOG));
+}
+function openReview() {
+  const panel = document.getElementById("review-panel");
+  const logDiv = document.getElementById("review-log");
+  const log = JSON.parse(localStorage.getItem("reviewLog") || "[]");
+  if (!log.length) {
+    logDiv.innerHTML = "<p>No mistakes yet 🎉</p>";
+  } else {
+    logDiv.innerHTML = log.map(item => `
+      <div class="review-item">
+        <p><b>${item.story} – Chapter ${item.chapter}</b></p>
+        <p>❓ ${item.question}</p>
+        <p>❌ Your Answer: ${item.chosen}</p>
+        <p>✅ Correct Answer: ${item.correct}</p>
+        <p>💡 ${item.explanation}</p>
+      </div><hr>
+    `).join("");
+  }
+  panel.style.display = "block";
+}
+function closeReview() {
+  document.getElementById("review-panel").style.display = "none";
+}
 
 /* ================== QUIZ SYSTEM ================== */
 const quizOverlay = document.getElementById("quiz-overlay");
@@ -237,14 +257,10 @@ function showQuiz(story, chapter = "1") {
     alert(`No quiz available yet for ${story}, Chapter ${chapter}`);
     return;
   }
-
-  // Pick a random question
   const q = questions[Math.floor(Math.random() * questions.length)];
-
   quizOverlay.style.display = "flex";
   quizQuestion.textContent = q.q;
   quizOptions.innerHTML = "";
-
   q.opts.forEach(opt => {
     const b = document.createElement("button");
     b.textContent = opt;
@@ -252,100 +268,214 @@ function showQuiz(story, chapter = "1") {
       if (opt === q.ans) {
         quizFeedback.textContent = "✅ Correct!";
         updateScore(10);
-
         document.getElementById("sound-nextlevel").play();
         celebrate(story);
-
         const lights = document.createElement("div");
         lights.className = "dance-lights";
         document.body.appendChild(lights);
         setTimeout(() => lights.remove(), 3000);
-
       } else {
         document.getElementById("sound-ohno").play();
-        quizFeedback.textContent = "❌ Not quite… You can do it! 💪 Try again!";
+        quizFeedback.innerHTML = `❌ Not quite… You can do it! 💪<br>
+          Correct Answer: <b>${q.ans}</b><br>
+          💡 ${q.explanation || "Remember this for next time!"}`;
         quizFeedback.classList.add("support-glow");
         setTimeout(() => quizFeedback.classList.remove("support-glow"), 2000);
+        logMistake(q.q, opt, q.ans, q.explanation, story, chapter);
       }
     };
     quizOptions.appendChild(b);
   });
-
   quizFeedback.textContent = "";
 }
-
 function closeQuiz() { quizOverlay.style.display = "none"; }
-
 quizReadBtn?.addEventListener("click", () => {
   const utterance = new SpeechSynthesisUtterance(quizQuestion.textContent);
   utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
+  speechSynthesis.cancel(); speechSynthesis.speak(utterance);
+});
+
+/* ================== CHAPTER BREAKS ================== */
+const CHAPTER_BREAKS = {
+  Haven: {
+    1: 5, 2: 8, 3: 11, 4: 12, 5: 13, 6: 15, 7: 16, 8: 17,
+    9: 19, 10: 24, 11: 26, 12: 27, 13: 33, 14: 34, 15: 36, 16: 37,
+    17: 42, 18: 49, 19: 50, 20: 56, 21: 60, 22: 61, 23: 63, 24: 64,
+    25: 66, 26: 68, 27: 71, 28: 74, 29: 77, 30: 80, 31: 81, 32: 82,
+    33: 83, 34: 86, 35: 87, 36: 89, 37: 92, 38: 94, epilogue: 99
+  },
+  Rover: { 1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 35, 8: 40, epilogue: 41 },
+  Lotus: { 1: 10, 2: 20, 3: 30, 4: 40, 5: 50, 6: 60, 7: 70, 8: 80, 9: 100, 10: 120, 11: 140, 12: 160 },
+  Library: { 1: 15, 2: 30, 3: 45, 4: 60, 5: 75, 6: 90, 7: 120, 8: 150, 9: 180, 10: 200, 11: 224 },
+  Teacher: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 120, 7: 150, 8: 180, 9: 210, 10: 240, 11: 270, 12: 304 },
+  Cat: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 140, 7: 180, 8: 220, 9: 260, 10: 300, 11: 320 },
+  Lemoncello: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 140, 7: 180, 8: 220, 9: 260, 10: 300, 11: 336 },
+  Survived: { 1: 10, 2: 20, 3: 30, 4: 40, 5: 60, 6: 80, 7: 100, 8: 120, 9: 144 }
+};
+
+/* ================== FLIPBOOKS ================== */
+const FLIPBOOKS = {
+  haven: { dir: "haven", prefix: "Haven_", total: 101, index: 1,
+    imgEl: document.getElementById("haven-page"),
+    wrapEl: document.getElementById("haven-flipbook"),
+    progressEl: document.getElementById("haven-progress") },
+  rover: { dir: "rover", prefix: "Rover_", total: 41, index: 1,
+    imgEl: document.getElementById("rover-page"),
+    wrapEl: document.getElementById("rover-flipbook"),
+    progressEl: document.getElementById("rover-progress") },
+  lotus: { dir: "lotus", prefix: "Lotus_", total: 160, index: 1,
+    imgEl: document.getElementById("lotus-page"),
+    wrapEl: document.getElementById("lotus-flipbook"),
+    progressEl: document.getElementById("lotus-progress") },
+  library: { dir: "library", prefix: "Library_", total: 224, index: 1,
+    imgEl: document.getElementById("library-page"),
+    wrapEl: document.getElementById("library-flipbook"),
+    progressEl: document.getElementById("library-progress") },
+  teacher: { dir: "super_teacher", prefix: "Teacher_", total: 304, index: 1,
+    imgEl: document.getElementById("teacher-page"),
+    wrapEl: document.getElementById("teacher-flipbook"),
+    progressEl: document.getElementById("teacher-progress") },
+  cat: { dir: "cat_in_space", prefix: "Cat_", total: 320, index: 1,
+    imgEl: document.getElementById("cat-page"),
+    wrapEl: document.getElementById("cat-flipbook"),
+    progressEl: document.getElementById("cat-progress") },
+  lemon: { dir: "lemoncello", prefix: "Lemoncello_", total: 336, index: 1,
+    imgEl: document.getElementById("lemon-page"),
+    wrapEl: document.getElementById("lemon-flipbook"),
+    progressEl: document.getElementById("lemon-progress") },
+  storm: { dir: "i_survived", prefix: "Survived_", total: 144, index: 1,
+    imgEl: document.getElementById("storm-page"),
+    wrapEl: document.getElementById("storm-flipbook"),
+    progressEl: document.getElementById("storm-progress") }
+};
+
+/* ================== FLIPBOOK FUNCTIONS ================== */
+let autoplayTimer = null;
+
+function preload(src) {
+  const im = new Image();
+  im.src = src;
+  return im;
+}
+
+function updateFlipbook(story) {
+  const fb = FLIPBOOKS[story];
+  const src = `${fb.dir}/${fb.prefix}${fb.index}.png`;
+
+  fb.imgEl.classList.remove("show");
+  setTimeout(() => {
+    fb.imgEl.src = src;
+    fb.imgEl.onload = () => fb.imgEl.classList.add("show");
+  }, 10);
+
+  fb.progressEl.textContent = `${fb.index} / ${fb.total}`;
+
+  if (fb.index < fb.total) preload(`${fb.dir}/${fb.prefix}${fb.index + 1}.png`);
+  if (fb.index > 1) preload(`${fb.dir}/${fb.prefix}${fb.index - 1}.png`);
+}
+
+function openFlipbook(story) {
+  stopAutoplay();
+  const fb = FLIPBOOKS[story];
+  fb.index = 1;
+  fb.wrapEl.style.display = "flex";
+  updateFlipbook(story);
+}
+
+function closeFlipbook(story) {
+  stopAutoplay();
+  FLIPBOOKS[story].wrapEl.style.display = "none";
+}
+
+function nextPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index < fb.total) {
+    fb.index++;
+    updateFlipbook(story);
+    playPageTurn();
+
+    // 🎯 Auto-quiz trigger
+    const breaks = CHAPTER_BREAKS[capitalize(story)];
+    if (breaks) {
+      for (let chapter in breaks) {
+        if (fb.index === breaks[chapter]) {
+          console.log(`✅ ${story} – Chapter ${chapter} complete → launching quiz`);
+          showQuiz(capitalize(story), chapter);
+        }
+      }
+    }
+  } else {
+    stopAutoplay();
+    try { celebrate?.(story); } catch (e) {}
+  }
+}
+
+function prevPage(story) {
+  const fb = FLIPBOOKS[story];
+  if (fb.index > 1) {
+    fb.index--;
+    updateFlipbook(story);
+    playPageTurn();
+  }
+}
+
+function startAutoplay(story, ms = 3000) {
+  stopAutoplay();
+  autoplayTimer = setInterval(() => {
+    const fb = FLIPBOOKS[story];
+    if (fb.index >= fb.total) {
+      stopAutoplay();
+      try { celebrate?.(story); } catch (e) {}
+    } else {
+      nextPage(story);
+    }
+  }, ms);
+}
+
+function stopAutoplay() {
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/* ================== KEYBOARD & SWIPE ================== */
+document.addEventListener("keydown", (e) => {
+  const active = Object.keys(FLIPBOOKS).find(k => FLIPBOOKS[k].wrapEl.style.display === "flex");
+  if (!active) return;
+  if (e.key === "ArrowRight") nextPage(active);
+  if (e.key === "ArrowLeft") prevPage(active);
+  if (e.key.toLowerCase() === " ") {
+    if (autoplayTimer) stopAutoplay(); else startAutoplay(active);
+    e.preventDefault();
+  }
+});
+
+function addSwipe(el, onLeft, onRight) {
+  let x0 = null;
+  el.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  el.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    let dx = e.changedTouches[0].clientX - x0;
+    if (dx < -30) onLeft();
+    if (dx > 30) onRight();
+    x0 = null;
+  }, { passive: true });
+}
+
+Object.keys(FLIPBOOKS).forEach(book => {
+  addSwipe(FLIPBOOKS[book].wrapEl, () => nextPage(book), () => prevPage(book));
 });
 
 /* ================== READ ALOUD ================== */
-let BOOK_TEXTS = { haven: {} };
-fetch("Haven_text_from_docx.json")
-  .then(res => res.json())
-  .then(data => BOOK_TEXTS.haven = data);
-
-function readAloud(story) {
-  const fb = FLIPBOOKS[story];
-  if (!fb) return;
-  const pageNum = fb.index.toString();
-  const text = BOOK_TEXTS[story]?.[pageNum] || `Page ${fb.index}`;
+function readAloud(text, lang="en-US") {
+  if (!text) return;
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
+  utterance.lang = lang;
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
-
-/* ================== LANGUAGE + DARK MODE + FRIENDS ================== */
-const modeBtn = document.getElementById("mode-toggle");
-if (localStorage.getItem("ubc_mode") === "dark") {
-  document.body.classList.add("dark-mode");
-  if (modeBtn) modeBtn.textContent = "☀️ Light Mode";
-}
-modeBtn?.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  const dark = document.body.classList.contains("dark-mode");
-  modeBtn.textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
-  localStorage.setItem("ubc_mode", dark ? "dark" : "light");
-});
-
-const translations = {
-  en: { splashTitle:"UBC 2025–2026", startBtn:"Start Adventure 🚀" },
-  es: { splashTitle:"UBC 2025–2026", startBtn:"Comenzar Aventura 🚀" }
-};
-function applyLanguage(lang) {
-  document.querySelectorAll("[data-key]").forEach(el => {
-    const key = el.getAttribute("data-key");
-    if (translations[lang][key]) el.textContent = translations[lang][key];
-  });
-}
-const langBtn = document.getElementById("lang-toggle");
-let currentLang = localStorage.getItem("ubc_lang") || "en";
-applyLanguage(currentLang);
-if (langBtn) langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
-langBtn?.addEventListener("click", () => {
-  currentLang = currentLang === "en" ? "es" : "en";
-  localStorage.setItem("ubc_lang", currentLang);
-  applyLanguage(currentLang);
-  langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
-});
-
-/* ================== FRIENDS PANEL ================== */
-const friendsBtn = document.getElementById("friends-toggle");
-const friendsPanel = document.getElementById("friends-panel");
-const notesArea = document.getElementById("team-notes");
-const saveNotesBtn = document.getElementById("save-notes");
-const teamDisplay = document.getElementById("team-name-display");
-notesArea.value = localStorage.getItem("teamNotes") || "";
-teamDisplay.textContent = localStorage.getItem("teamName") || "Unknown";
-friendsBtn?.addEventListener("click", () => { friendsPanel.classList.toggle("open"); });
-saveNotesBtn?.addEventListener("click", () => {
-  localStorage.setItem("teamNotes", notesArea.value);
-  alert("Notes saved!");
-});
-
-/* ================== END OF SCRIPT ================== */
