@@ -1,43 +1,938 @@
-
 {
   "1": [
     {
-      "q": "What smell woke Haven at the beginning of the story?",
-      "opts": ["Bread", "Rain", "Pizza"],
-      "ans": "Bread"
+      "q": "What important event happens in Chapter 1?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 1, Haven experiences emotions and events that move her story forward."
     },
     {
-      "q": "Where did Haven first meet Ma Millie?",
-      "opts": ["In the forest", "At the bakery", "In the library"],
-      "ans": "At the bakery"
+      "q": "Why is Chapter 1 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 1 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
     }
   ],
   "2": [
     {
-      "q": "What was Haven’s main feeling in the dark forest?",
-      "opts": ["Excited", "Lonely", "Hungry"],
-      "ans": "Lonely"
+      "q": "What important event happens in Chapter 2?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 2, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 2 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 2 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
     }
   ],
   "3": [
     {
-      "q": "What natural element scared Haven in the woods?",
-      "opts": ["The trees’ icy breath", "The sound of waves", "The smell of smoke"],
-      "ans": "The trees’ icy breath"
+      "q": "What important event happens in Chapter 3?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 3, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 3 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 3 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "4": [
+    {
+      "q": "What important event happens in Chapter 4?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 4, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 4 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 4 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
     }
   ],
   "5": [
     {
-      "q": "What animal is Haven?",
-      "opts": ["A cat", "A dog", "A rabbit"],
-      "ans": "A cat"
+      "q": "What important event happens in Chapter 5?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 5, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 5 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 5 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "6": [
+    {
+      "q": "What important event happens in Chapter 6?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 6, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 6 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 6 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "7": [
+    {
+      "q": "What important event happens in Chapter 7?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 7, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 7 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 7 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "8": [
+    {
+      "q": "What important event happens in Chapter 8?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 8, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 8 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 8 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "9": [
+    {
+      "q": "What important event happens in Chapter 9?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 9, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 9 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 9 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "10": [
+    {
+      "q": "What important event happens in Chapter 10?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 10, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 10 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 10 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "11": [
+    {
+      "q": "What important event happens in Chapter 11?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 11, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 11 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 11 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "12": [
+    {
+      "q": "What important event happens in Chapter 12?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 12, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 12 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 12 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "13": [
+    {
+      "q": "What important event happens in Chapter 13?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 13, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 13 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 13 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "14": [
+    {
+      "q": "What important event happens in Chapter 14?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 14, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 14 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 14 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "15": [
+    {
+      "q": "What important event happens in Chapter 15?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 15, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 15 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 15 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "16": [
+    {
+      "q": "What important event happens in Chapter 16?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 16, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 16 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 16 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "17": [
+    {
+      "q": "What important event happens in Chapter 17?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 17, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 17 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 17 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "18": [
+    {
+      "q": "What important event happens in Chapter 18?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 18, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 18 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 18 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "19": [
+    {
+      "q": "What important event happens in Chapter 19?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 19, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 19 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 19 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "20": [
+    {
+      "q": "What important event happens in Chapter 20?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 20, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 20 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 20 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "21": [
+    {
+      "q": "What important event happens in Chapter 21?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 21, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 21 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 21 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "22": [
+    {
+      "q": "What important event happens in Chapter 22?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 22, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 22 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 22 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "23": [
+    {
+      "q": "What important event happens in Chapter 23?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 23, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 23 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 23 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "24": [
+    {
+      "q": "What important event happens in Chapter 24?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 24, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 24 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 24 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "25": [
+    {
+      "q": "What important event happens in Chapter 25?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 25, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 25 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 25 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "26": [
+    {
+      "q": "What important event happens in Chapter 26?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 26, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 26 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 26 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "27": [
+    {
+      "q": "What important event happens in Chapter 27?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 27, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 27 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 27 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "28": [
+    {
+      "q": "What important event happens in Chapter 28?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 28, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 28 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 28 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "29": [
+    {
+      "q": "What important event happens in Chapter 29?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 29, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 29 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 29 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "30": [
+    {
+      "q": "What important event happens in Chapter 30?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 30, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 30 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 30 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "31": [
+    {
+      "q": "What important event happens in Chapter 31?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 31, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 31 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 31 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "32": [
+    {
+      "q": "What important event happens in Chapter 32?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 32, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 32 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 32 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "33": [
+    {
+      "q": "What important event happens in Chapter 33?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 33, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 33 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 33 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "34": [
+    {
+      "q": "What important event happens in Chapter 34?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 34, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 34 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 34 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "35": [
+    {
+      "q": "What important event happens in Chapter 35?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 35, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 35 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 35 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "36": [
+    {
+      "q": "What important event happens in Chapter 36?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 36, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 36 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 36 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "37": [
+    {
+      "q": "What important event happens in Chapter 37?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven finds comfort",
+      "explanation": "In Chapter 37, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 37 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 37 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
+    }
+  ],
+  "38": [
+    {
+      "q": "What important event happens in Chapter 38?",
+      "opts": [
+        "Haven finds comfort",
+        "Haven feels scared",
+        "Haven learns a lesson",
+        "Haven meets someone new"
+      ],
+      "ans": "Haven feels scared",
+      "explanation": "In Chapter 38, Haven experiences emotions and events that move her story forward."
+    },
+    {
+      "q": "Why is Chapter 38 important in Haven's journey?",
+      "opts": [
+        "It shows her courage",
+        "It makes her lonely",
+        "It has no changes",
+        "It repeats earlier events"
+      ],
+      "ans": "It shows her courage",
+      "explanation": "Chapter 38 highlights Haven\u2019s courage to keep moving and trusting despite challenges."
     }
   ],
   "epilogue": [
     {
-      "q": "At the end, what did Haven finally feel?",
-      "opts": ["At home", "Lost again", "Scared"],
-      "ans": "At home"
+      "q": "What is the lesson from Haven\u2019s adventure?",
+      "opts": [
+        "Courage leads to safety and friendship",
+        "It is better to stay alone",
+        "Forests are safe homes",
+        "Cats do not need people"
+      ],
+      "ans": "Courage leads to safety and friendship",
+      "explanation": "The epilogue shows Haven\u2019s courage leads her to safety, love, and belonging."
+    },
+    {
+      "q": "Why does Haven\u2019s name matter in the story?",
+      "opts": [
+        "It means a safe place",
+        "It was chosen randomly",
+        "It is the name of her town",
+        "It comes from her mother cat"
+      ],
+      "ans": "It means a safe place",
+      "explanation": "Haven\u2019s name represents finding shelter, safety, and belonging."
     }
   ]
 }
