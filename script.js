@@ -1,5 +1,5 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL VERSION WITH CELEBRATION + SUPPORT
+   UBC WEBSITE SCRIPT – FINAL VERSION WITH QUIZ LOADER
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -206,6 +206,24 @@ function checkMilestone() {
   }
 }
 
+/* ================== QUIZ LOADER ================== */
+let QUIZ_DATA = {};
+
+// Load quiz JSON for a given book
+function loadQuiz(story) {
+  fetch(`quizzes/${story}_quiz.json`)
+    .then(res => res.json())
+    .then(data => {
+      QUIZ_DATA[story] = data;
+      console.log(`✅ Loaded quiz for ${story}`);
+    })
+    .catch(err => console.error(`⚠️ Quiz for ${story} not found`, err));
+}
+
+// Preload all quizzes
+["Haven", "Rover", "Lotus", "Library", "Teacher", "Cat", "Lemoncello", "Survived"]
+  .forEach(loadQuiz);
+
 /* ================== QUIZ SYSTEM ================== */
 const quizOverlay = document.getElementById("quiz-overlay");
 const quizQuestion = document.getElementById("quiz-question");
@@ -213,21 +231,20 @@ const quizOptions = document.getElementById("quiz-options");
 const quizFeedback = document.getElementById("quiz-feedback");
 const quizReadBtn = document.getElementById("quiz-read-btn");
 
-const QUIZZES = {
-  haven: {
-    1: { q: "What smell woke Haven?", opts: ["Bread","Rain","Pizza"], ans: "Bread" }
-  },
-  rover: {
-    1: { q: "Where does Rover explore?", opts: ["Mars","Moon","Ocean"], ans: "Mars" }
+function showQuiz(story, chapter = "1") {
+  const questions = QUIZ_DATA[story]?.[chapter];
+  if (!questions) {
+    alert(`No quiz available yet for ${story}, Chapter ${chapter}`);
+    return;
   }
-};
 
-function showQuiz(story) {
-  const q = QUIZZES[story]?.[1];
-  if (!q) return;
+  // Pick a random question
+  const q = questions[Math.floor(Math.random() * questions.length)];
+
   quizOverlay.style.display = "flex";
   quizQuestion.textContent = q.q;
   quizOptions.innerHTML = "";
+
   q.opts.forEach(opt => {
     const b = document.createElement("button");
     b.textContent = opt;
@@ -253,6 +270,7 @@ function showQuiz(story) {
     };
     quizOptions.appendChild(b);
   });
+
   quizFeedback.textContent = "";
 }
 
