@@ -1,1 +1,43 @@
 
+{
+  "1": [
+    {
+      "q": "What smell woke Haven at the beginning of the story?",
+      "opts": ["Bread", "Rain", "Pizza"],
+      "ans": "Bread"
+    },
+    {
+      "q": "Where did Haven first meet Ma Millie?",
+      "opts": ["In the forest", "At the bakery", "In the library"],
+      "ans": "At the bakery"
+    }
+  ],
+  "2": [
+    {
+      "q": "What was Haven’s main feeling in the dark forest?",
+      "opts": ["Excited", "Lonely", "Hungry"],
+      "ans": "Lonely"
+    }
+  ],
+  "3": [
+    {
+      "q": "What natural element scared Haven in the woods?",
+      "opts": ["The trees’ icy breath", "The sound of waves", "The smell of smoke"],
+      "ans": "The trees’ icy breath"
+    }
+  ],
+  "5": [
+    {
+      "q": "What animal is Haven?",
+      "opts": ["A cat", "A dog", "A rabbit"],
+      "ans": "A cat"
+    }
+  ],
+  "epilogue": [
+    {
+      "q": "At the end, what did Haven finally feel?",
+      "opts": ["At home", "Lost again", "Scared"],
+      "ans": "At home"
+    }
+  ]
+}
