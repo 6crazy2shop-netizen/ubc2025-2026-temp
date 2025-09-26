@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "Who surprises the students in The Superteacher Project?", 
+      "opts": ["A robot teacher", "A substitute", "The principal", "A scientist"], 
+      "ans": "A robot teacher", 
+      "explanation": "The new teacher is not what the students expected — it’s a robot!" }
+  ]
+}
