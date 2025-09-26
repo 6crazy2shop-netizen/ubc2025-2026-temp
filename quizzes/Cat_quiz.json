@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "What does the first cat in space eat?", 
+      "opts": ["Pizza", "Tacos", "Burgers", "Fish"], 
+      "ans": "Pizza", 
+      "explanation": "The silly story is about a cat in space who loves pizza." }
+  ]
+}
