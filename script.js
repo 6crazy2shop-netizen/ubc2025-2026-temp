@@ -1,5 +1,5 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL VERSION WITH SCORING SYSTEM
+   UBC WEBSITE SCRIPT – FINAL VERSION WITH CELEBRATION + SUPPORT
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -196,6 +196,12 @@ function updateScore(points) {
 function checkMilestone() {
   if (playerScore > 0 && playerScore % 50 === 0) {
     document.getElementById("sound-nextlevel").play();
+
+    const scoreboard = document.getElementById("scoreboard");
+    scoreboard.classList.add("level-up");
+
+    setTimeout(() => scoreboard.classList.remove("level-up"), 3000);
+
     alert("🎉 Next Level! You’ve earned " + playerScore + " points!");
   }
 }
@@ -215,8 +221,9 @@ const QUIZZES = {
     1: { q: "Where does Rover explore?", opts: ["Mars","Moon","Ocean"], ans: "Mars" }
   }
 };
+
 function showQuiz(story) {
-  const q = QUIZZES[story]?.[1]; // example per story
+  const q = QUIZZES[story]?.[1];
   if (!q) return;
   quizOverlay.style.display = "flex";
   quizQuestion.textContent = q.q;
@@ -228,18 +235,29 @@ function showQuiz(story) {
       if (opt === q.ans) {
         quizFeedback.textContent = "✅ Correct!";
         updateScore(10);
+
         document.getElementById("sound-nextlevel").play();
         celebrate(story);
+
+        const lights = document.createElement("div");
+        lights.className = "dance-lights";
+        document.body.appendChild(lights);
+        setTimeout(() => lights.remove(), 3000);
+
       } else {
-        quizFeedback.textContent = "❌ Try again.";
         document.getElementById("sound-ohno").play();
+        quizFeedback.textContent = "❌ Not quite… You can do it! 💪 Try again!";
+        quizFeedback.classList.add("support-glow");
+        setTimeout(() => quizFeedback.classList.remove("support-glow"), 2000);
       }
     };
     quizOptions.appendChild(b);
   });
   quizFeedback.textContent = "";
 }
+
 function closeQuiz() { quizOverlay.style.display = "none"; }
+
 quizReadBtn?.addEventListener("click", () => {
   const utterance = new SpeechSynthesisUtterance(quizQuestion.textContent);
   utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
@@ -252,6 +270,7 @@ let BOOK_TEXTS = { haven: {} };
 fetch("Haven_text_from_docx.json")
   .then(res => res.json())
   .then(data => BOOK_TEXTS.haven = data);
+
 function readAloud(story) {
   const fb = FLIPBOOKS[story];
   if (!fb) return;
