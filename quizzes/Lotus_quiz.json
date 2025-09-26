@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "What magical place do the kids explore?", 
+      "opts": ["Lotus Island", "Dragon Valley", "Magic Forest", "River Kingdom"], 
+      "ans": "Lotus Island", 
+      "explanation": "The story takes place on Lotus Island, full of magic." }
+  ]
+}
