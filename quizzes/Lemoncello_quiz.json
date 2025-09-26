@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "What kind of puzzles do kids solve in Lemoncello’s Library?", 
+      "opts": ["Riddles", "Math problems", "Science experiments", "Sports games"], 
+      "ans": "Riddles", 
+      "explanation": "The story is full of riddles and puzzles to escape the library." }
+  ]
+}
