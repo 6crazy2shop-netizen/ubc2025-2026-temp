@@ -1,1 +1,8 @@
-
+{
+  "1": [
+    { "q": "What disaster do the kids survive in the book?", 
+      "opts": ["Hurricane", "Earthquake", "Tornado", "Flood"], 
+      "ans": "Hurricane", 
+      "explanation": "The story is about surviving the Galveston Hurricane of 1900." }
+  ]
+}
