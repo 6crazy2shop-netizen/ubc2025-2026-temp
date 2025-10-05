@@ -1,5 +1,6 @@
 /* =========================================================
-   UBC WEBSITE SCRIPT – FINAL MERGED VERSION
+   UBC WEBSITE SCRIPT – FINAL MASTER VERSION
+   Phase 1 + Phase 2 + Narration Ready
    ========================================================= */
 
 /* ================== TEAM NAME + FOOTER SYNC ================== */
@@ -31,6 +32,7 @@ window.addEventListener("load", () => {
     splash.style.display = "block";
   }, 2000);
 });
+
 startBtn?.addEventListener("click", () => {
   updateTeamName(teamSplash.value);
   splash.style.display = "none";
@@ -53,6 +55,7 @@ function checkSaved() {
   if (sessionStorage.getItem("ubc_ok") === "1") unlock();
 }
 checkSaved();
+
 pwBtn?.addEventListener("click", () => {
   const ok = (input.value || "").toLowerCase() === "ubc2025";
   if (ok) {
@@ -88,6 +91,7 @@ function playBg(track) {
   currentBg = track;
   if (!bgMuted && !globalMuted) selected.play().catch(() => {});
 }
+
 function fadeOut(audio, duration = 1000) {
   if (!audio) return;
   let vol = audio.volume;
@@ -101,20 +105,16 @@ function fadeOut(audio, duration = 1000) {
     } else audio.volume = vol;
   }, 50);
 }
-document.addEventListener("click", () => playBg(currentBg), { once: true });
 
 /* ================== PAGE TURN SOUND ================== */
 function playPageTurn() {
   const turnSound = document.getElementById("sound-whoosh");
   if (!turnSound) return;
   fadeOut(bgTracks[currentBg], 300);
-  turnSound.pause();
   turnSound.currentTime = 0;
   turnSound.play().then(() => {
     setTimeout(() => {
-      turnSound.pause();
-      turnSound.currentTime = 0;
-      playBg?.(currentBg);
+      playBg(currentBg);
     }, 5000);
   }).catch(()=>{});
 }
@@ -124,31 +124,52 @@ const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 function fit() { canvas.width = innerWidth; canvas.height = innerHeight; }
 addEventListener("resize", fit); fit();
+
 function burst(x, y) {
   const parts = [];
   for (let i = 0; i < 120; i++) {
-    parts.push({ x, y,
-      vx: (Math.random()-0.5)*8, vy: (Math.random()-0.5)*8,
-      r: Math.random()*2+1.8, a: 1,
-      hue: Math.floor(Math.random()*360) });
+    parts.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 8,
+      vy: (Math.random() - 0.5) * 8,
+      r: Math.random() * 2 + 1.8,
+      a: 1,
+      hue: Math.floor(Math.random() * 360)
+    });
   }
-  let t=0;
-  function tick(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    parts.forEach(p=>{
+  let t = 0;
+  function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    parts.forEach(p => {
       p.x += p.vx; p.y += p.vy; p.vy += 0.06;
       p.r *= 0.98; p.a *= 0.97;
       ctx.beginPath();
-      ctx.arc(p.x,p.y,Math.max(p.r,0),0,Math.PI*2);
+      ctx.arc(p.x, p.y, Math.max(p.r, 0), 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${p.hue},100%,55%,${p.a})`;
       ctx.fill();
     });
-    t++; if(t<140) requestAnimationFrame(tick);
+    t++;
+    if (t < 140) requestAnimationFrame(tick);
   }
   tick();
 }
 
 /* ================== CELEBRATION ================== */
+function randomConfettiColor(theme) {
+  const colors = {
+    rover: ["#ff4d4d", "#ff9999", "#ff1a1a"],
+    lotus: ["#33cc33", "#66ff66", "#009933"],
+    haven: ["#ff66cc", "#ff99cc", "#ff3399"],
+    library: ["#ffcc00", "#ffdd66", "#ffaa00"],
+    teacher: ["#3366ff", "#6699ff", "#0033cc"],
+    cat: ["#ff6600", "#ff9933", "#ffcc66"],
+    lemon: ["#cc33ff", "#9933ff", "#cc99ff"],
+    storm: ["#00ccff", "#3399ff", "#0066cc"]
+  };
+  const themeColors = colors[theme] || ["#ffffff"];
+  return themeColors[Math.floor(Math.random() * themeColors.length)];
+}
+
 function celebrate(theme) {
   const sound = document.getElementById(`sound-${theme}`);
   if (sound) {
@@ -171,185 +192,43 @@ function celebrate(theme) {
   }
   burst(innerWidth / 2, innerHeight / 2);
 }
-function randomConfettiColor(theme) {
-  const colors = {
-    rover: ["#ff4d4d", "#ff9999", "#ff1a1a"],
-    lotus: ["#33cc33", "#66ff66", "#009933"],
-    haven: ["#ff66cc", "#ff99cc", "#ff3399"],
-    library: ["#ffcc00", "#ffdd66", "#ffaa00"],
-    teacher: ["#3366ff", "#6699ff", "#0033cc"],
-    cat: ["#ff6600", "#ff9933", "#ffcc66"],
-    lemon: ["#cc33ff", "#9933ff", "#cc99ff"],
-    storm: ["#00ccff", "#3399ff", "#0066cc"],
-  };
-  const themeColors = colors[theme] || ["#ffffff"];
-  return themeColors[Math.floor(Math.random() * themeColors.length)];
-}
 
-/* ================== SCORING ================== */
-let playerScore = 0;
-function updateScore(points) {
-  playerScore += points;
-  document.getElementById("scoreboard").textContent = "Score: " + playerScore;
-  checkMilestone();
-}
-function checkMilestone() {
-  if (playerScore > 0 && playerScore % 50 === 0) {
-    document.getElementById("sound-nextlevel").play();
-    const scoreboard = document.getElementById("scoreboard");
-    scoreboard.classList.add("level-up");
-    setTimeout(() => scoreboard.classList.remove("level-up"), 3000);
-    alert("🎉 Next Level! You’ve earned " + playerScore + " points!");
-  }
-}
-
-/* ================== QUIZ LOADER ================== */
-let QUIZ_DATA = {};
-function loadQuiz(story) {
-  fetch(`quizzes/${story}_quiz.json`)
-    .then(res => res.json())
-    .then(data => { QUIZ_DATA[story] = data; })
-    .catch(err => console.error(`⚠️ Quiz for ${story} not found`, err));
-}
-["Haven", "Rover", "Lotus", "Library", "Teacher", "Cat", "Lemoncello", "Survived"]
-  .forEach(loadQuiz);
-
-/* ================== REVIEW LOG ================== */
-let REVIEW_LOG = JSON.parse(localStorage.getItem("reviewLog") || "[]");
-function logMistake(question, chosen, correct, explanation, story, chapter) {
-  const entry = { story, chapter, question, chosen, correct, explanation, timestamp: new Date().toISOString() };
-  REVIEW_LOG.push(entry);
-  localStorage.setItem("reviewLog", JSON.stringify(REVIEW_LOG));
-}
-function openReview() {
-  const panel = document.getElementById("review-panel");
-  const logDiv = document.getElementById("review-log");
-  const log = JSON.parse(localStorage.getItem("reviewLog") || "[]");
-  if (!log.length) {
-    logDiv.innerHTML = "<p>No mistakes yet 🎉</p>";
-  } else {
-    logDiv.innerHTML = log.map(item => `
-      <div class="review-item">
-        <p><b>${item.story} – Chapter ${item.chapter}</b></p>
-        <p>❓ ${item.question}</p>
-        <p>❌ Your Answer: ${item.chosen}</p>
-        <p>✅ Correct Answer: ${item.correct}</p>
-        <p>💡 ${item.explanation}</p>
-      </div><hr>
-    `).join("");
-  }
-  panel.style.display = "block";
-}
-function closeReview() {
-  document.getElementById("review-panel").style.display = "none";
-}
-
-/* ================== QUIZ SYSTEM ================== */
-const quizOverlay = document.getElementById("quiz-overlay");
-const quizQuestion = document.getElementById("quiz-question");
-const quizOptions = document.getElementById("quiz-options");
-const quizFeedback = document.getElementById("quiz-feedback");
-const quizReadBtn = document.getElementById("quiz-read-btn");
-
-function showQuiz(story, chapter = "1") {
-  const questions = QUIZ_DATA[story]?.[chapter];
-  if (!questions) {
-    alert(`No quiz available yet for ${story}, Chapter ${chapter}`);
-    return;
-  }
-  const q = questions[Math.floor(Math.random() * questions.length)];
-  quizOverlay.style.display = "flex";
-  quizQuestion.textContent = q.q;
-  quizOptions.innerHTML = "";
-  q.opts.forEach(opt => {
-    const b = document.createElement("button");
-    b.textContent = opt;
-    b.onclick = () => {
-      if (opt === q.ans) {
-        quizFeedback.textContent = "✅ Correct!";
-        updateScore(10);
-        document.getElementById("sound-nextlevel").play();
-        celebrate(story);
-        const lights = document.createElement("div");
-        lights.className = "dance-lights";
-        document.body.appendChild(lights);
-        setTimeout(() => lights.remove(), 3000);
-      } else {
-        document.getElementById("sound-ohno").play();
-        quizFeedback.innerHTML = `❌ Not quite… You can do it! 💪<br>
-          Correct Answer: <b>${q.ans}</b><br>
-          💡 ${q.explanation || "Remember this for next time!"}`;
-        quizFeedback.classList.add("support-glow");
-        setTimeout(() => quizFeedback.classList.remove("support-glow"), 2000);
-        logMistake(q.q, opt, q.ans, q.explanation, story, chapter);
-      }
-    };
-    quizOptions.appendChild(b);
-  });
-  quizFeedback.textContent = "";
-}
-function closeQuiz() { quizOverlay.style.display = "none"; }
-quizReadBtn?.addEventListener("click", () => {
-  const utterance = new SpeechSynthesisUtterance(quizQuestion.textContent);
-  utterance.lang = (localStorage.getItem("ubc_lang") === "es") ? "es-ES" : "en-US";
-  speechSynthesis.cancel(); speechSynthesis.speak(utterance);
-});
-
-/* ================== CHAPTER BREAKS ================== */
-const CHAPTER_BREAKS = {
-  Haven: {
-    1: 5, 2: 8, 3: 11, 4: 12, 5: 13, 6: 15, 7: 16, 8: 17,
-    9: 19, 10: 24, 11: 26, 12: 27, 13: 33, 14: 34, 15: 36, 16: 37,
-    17: 42, 18: 49, 19: 50, 20: 56, 21: 60, 22: 61, 23: 63, 24: 64,
-    25: 66, 26: 68, 27: 71, 28: 74, 29: 77, 30: 80, 31: 81, 32: 82,
-    33: 83, 34: 86, 35: 87, 36: 89, 37: 92, 38: 94, epilogue: 99
-  },
-  Rover: { 1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30, 7: 35, 8: 40, epilogue: 41 },
-  Lotus: { 1: 10, 2: 20, 3: 30, 4: 40, 5: 50, 6: 60, 7: 70, 8: 80, 9: 100, 10: 120, 11: 140, 12: 160 },
-  Library: { 1: 15, 2: 30, 3: 45, 4: 60, 5: 75, 6: 90, 7: 120, 8: 150, 9: 180, 10: 200, 11: 224 },
-  Teacher: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 120, 7: 150, 8: 180, 9: 210, 10: 240, 11: 270, 12: 304 },
-  Cat: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 140, 7: 180, 8: 220, 9: 260, 10: 300, 11: 320 },
-  Lemoncello: { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100, 6: 140, 7: 180, 8: 220, 9: 260, 10: 300, 11: 336 },
-  Survived: { 1: 10, 2: 20, 3: 30, 4: 40, 5: 60, 6: 80, 7: 100, 8: 120, 9: 144 }
-};
-
-/* ================== FLIPBOOKS ================== */
+/* ================== FLIPBOOK CORE (generic) ================== */
 const FLIPBOOKS = {
-  haven: { dir: "haven", prefix: "Haven_", total: 101, index: 1,
-    imgEl: document.getElementById("haven-page"),
-    wrapEl: document.getElementById("haven-flipbook"),
-    progressEl: document.getElementById("haven-progress") },
-  rover: { dir: "rover", prefix: "Rover_", total: 41, index: 1,
-    imgEl: document.getElementById("rover-page"),
-    wrapEl: document.getElementById("rover-flipbook"),
-    progressEl: document.getElementById("rover-progress") },
-  lotus: { dir: "lotus", prefix: "Lotus_", total: 160, index: 1,
-    imgEl: document.getElementById("lotus-page"),
-    wrapEl: document.getElementById("lotus-flipbook"),
-    progressEl: document.getElementById("lotus-progress") },
-  library: { dir: "library", prefix: "Library_", total: 224, index: 1,
-    imgEl: document.getElementById("library-page"),
-    wrapEl: document.getElementById("library-flipbook"),
-    progressEl: document.getElementById("library-progress") },
-  teacher: { dir: "super_teacher", prefix: "Teacher_", total: 304, index: 1,
-    imgEl: document.getElementById("teacher-page"),
-    wrapEl: document.getElementById("teacher-flipbook"),
-    progressEl: document.getElementById("teacher-progress") },
-  cat: { dir: "cat_in_space", prefix: "Cat_", total: 320, index: 1,
-    imgEl: document.getElementById("cat-page"),
-    wrapEl: document.getElementById("cat-flipbook"),
-    progressEl: document.getElementById("cat-progress") },
-  lemon: { dir: "lemoncello", prefix: "Lemoncello_", total: 336, index: 1,
-    imgEl: document.getElementById("lemon-page"),
-    wrapEl: document.getElementById("lemon-flipbook"),
-    progressEl: document.getElementById("lemon-progress") },
-  storm: { dir: "i_survived", prefix: "Survived_", total: 144, index: 1,
-    imgEl: document.getElementById("storm-page"),
-    wrapEl: document.getElementById("storm-flipbook"),
-    progressEl: document.getElementById("storm-progress") }
+  haven:  { dir: "haven",  prefix: "Haven_",  total: 120, index: 1,
+            imgEl: document.getElementById("haven-page"),
+            wrapEl: document.getElementById("haven-flipbook"),
+            progressEl: document.getElementById("haven-progress") },
+  rover:  { dir: "rover",  prefix: "Rover_",  total: 120, index: 1,
+            imgEl: document.getElementById("rover-page"),
+            wrapEl: document.getElementById("rover-flipbook"),
+            progressEl: document.getElementById("rover-progress") },
+  lotus:  { dir: "lotus",  prefix: "Lotus_",  total: 160, index: 1,
+            imgEl: document.getElementById("lotus-page"),
+            wrapEl: document.getElementById("lotus-flipbook"),
+            progressEl: document.getElementById("lotus-progress") },
+  library:{ dir: "library",prefix: "Library_",total: 224, index: 1,
+            imgEl: document.getElementById("library-page"),
+            wrapEl: document.getElementById("library-flipbook"),
+            progressEl: document.getElementById("library-progress") },
+  teacher:{ dir: "super_teacher", prefix:"Teacher_", total:304, index:1,
+            imgEl: document.getElementById("teacher-page"),
+            wrapEl: document.getElementById("teacher-flipbook"),
+            progressEl: document.getElementById("teacher-progress") },
+  cat:    { dir: "cat_in_space", prefix:"Cat_", total:320, index:1,
+            imgEl: document.getElementById("cat-page"),
+            wrapEl: document.getElementById("cat-flipbook"),
+            progressEl: document.getElementById("cat-progress") },
+  lemon:  { dir: "mr_lemoncello", prefix:"Lemoncello_", total:336, index:1,
+            imgEl: document.getElementById("lemon-page"),
+            wrapEl: document.getElementById("lemon-flipbook"),
+            progressEl: document.getElementById("lemon-progress") },
+  storm:  { dir: "i_survived", prefix:"Survived_", total:144, index:1,
+            imgEl: document.getElementById("storm-page"),
+            wrapEl: document.getElementById("storm-flipbook"),
+            progressEl: document.getElementById("storm-progress") },
 };
 
-/* ================== FLIPBOOK FUNCTIONS ================== */
 let autoplayTimer = null;
 
 function preload(src) {
@@ -358,9 +237,12 @@ function preload(src) {
   return im;
 }
 
+// NOTE: narration hook is appended in Part 3 (playNarration inside updateFlipbook)
 function updateFlipbook(story) {
   const fb = FLIPBOOKS[story];
   const src = `${fb.dir}/${fb.prefix}${fb.index}.png`;
+
+  if (!fb.imgEl) return;
 
   fb.imgEl.classList.remove("show");
   setTimeout(() => {
@@ -368,7 +250,7 @@ function updateFlipbook(story) {
     fb.imgEl.onload = () => fb.imgEl.classList.add("show");
   }, 10);
 
-  fb.progressEl.textContent = `${fb.index} / ${fb.total}`;
+  if (fb.progressEl) fb.progressEl.textContent = `${fb.index} / ${fb.total}`;
 
   if (fb.index < fb.total) preload(`${fb.dir}/${fb.prefix}${fb.index + 1}.png`);
   if (fb.index > 1) preload(`${fb.dir}/${fb.prefix}${fb.index - 1}.png`);
@@ -377,41 +259,35 @@ function updateFlipbook(story) {
 function openFlipbook(story) {
   stopAutoplay();
   const fb = FLIPBOOKS[story];
+  if (!fb) return;
   fb.index = 1;
-  fb.wrapEl.style.display = "flex";
+  if (fb.wrapEl) fb.wrapEl.style.display = "flex";
   updateFlipbook(story);
 }
 
 function closeFlipbook(story) {
   stopAutoplay();
-  FLIPBOOKS[story].wrapEl.style.display = "none";
+  const fb = FLIPBOOKS[story];
+  if (!fb) return;
+  if (fb.wrapEl) fb.wrapEl.style.display = "none";
 }
 
 function nextPage(story) {
   const fb = FLIPBOOKS[story];
+  if (!fb) return;
   if (fb.index < fb.total) {
     fb.index++;
     updateFlipbook(story);
     playPageTurn();
-
-    // 🎯 Auto-quiz trigger
-    const breaks = CHAPTER_BREAKS[capitalize(story)];
-    if (breaks) {
-      for (let chapter in breaks) {
-        if (fb.index === breaks[chapter]) {
-          console.log(`✅ ${story} – Chapter ${chapter} complete → launching quiz`);
-          showQuiz(capitalize(story), chapter);
-        }
-      }
-    }
   } else {
     stopAutoplay();
-    try { celebrate?.(story); } catch (e) {}
+    celebrate(story);
   }
 }
 
 function prevPage(story) {
   const fb = FLIPBOOKS[story];
+  if (!fb) return;
   if (fb.index > 1) {
     fb.index--;
     updateFlipbook(story);
@@ -423,9 +299,10 @@ function startAutoplay(story, ms = 3000) {
   stopAutoplay();
   autoplayTimer = setInterval(() => {
     const fb = FLIPBOOKS[story];
+    if (!fb) return stopAutoplay();
     if (fb.index >= fb.total) {
       stopAutoplay();
-      try { celebrate?.(story); } catch (e) {}
+      celebrate(story);
     } else {
       nextPage(story);
     }
@@ -439,14 +316,11 @@ function stopAutoplay() {
   }
 }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 /* ================== KEYBOARD & SWIPE ================== */
 document.addEventListener("keydown", (e) => {
-  const active = Object.keys(FLIPBOOKS).find(k => FLIPBOOKS[k].wrapEl.style.display === "flex");
+  const active = Object.keys(FLIPBOOKS).find(k => FLIPBOOKS[k].wrapEl && FLIPBOOKS[k].wrapEl.style.display === "flex");
   if (!active) return;
+
   if (e.key === "ArrowRight") nextPage(active);
   if (e.key === "ArrowLeft") prevPage(active);
   if (e.key.toLowerCase() === " ") {
@@ -456,6 +330,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 function addSwipe(el, onLeft, onRight) {
+  if (!el) return;
   let x0 = null;
   el.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
   el.addEventListener("touchend", (e) => {
@@ -466,16 +341,462 @@ function addSwipe(el, onLeft, onRight) {
     x0 = null;
   }, { passive: true });
 }
-
-Object.keys(FLIPBOOKS).forEach(book => {
-  addSwipe(FLIPBOOKS[book].wrapEl, () => nextPage(book), () => prevPage(book));
+Object.keys(FLIPBOOKS).forEach(k => {
+  const fb = FLIPBOOKS[k];
+  addSwipe(fb.wrapEl, () => nextPage(k), () => prevPage(k));
 });
 
-/* ================== READ ALOUD ================== */
-function readAloud(text, lang="en-US") {
-  if (!text) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
+/* ================== LANGUAGE + DARK MODE + FRIENDS ================== */
+const modeBtn = document.getElementById("mode-toggle");
+if (localStorage.getItem("ubc_mode") === "dark") {
+  document.body.classList.add("dark-mode");
+  if (modeBtn) modeBtn.textContent = "☀️ Light Mode";
 }
+modeBtn?.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const dark = document.body.classList.contains("dark-mode");
+  modeBtn.textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  localStorage.setItem("ubc_mode", dark ? "dark" : "light");
+});
+
+const translations = {
+  en: { splashTitle:"UBC 2025–2026", teamPromptSplash:"Edit your team name:", startBtn:"Start Adventure 🚀",
+        pwTitle:"Enter Password", pwBtn:"Submit", mainTitle:"Ultimate Book Challenge 2025–2026",
+        teamPromptMain:"Edit your team name below:" },
+  es: { splashTitle:"UBC 2025–2026", teamPromptSplash:"Edita el nombre de tu equipo:", startBtn:"Comenzar Aventura 🚀",
+        pwTitle:"Ingresar Contraseña", pwBtn:"Enviar", mainTitle:"Desafío de Libros 2025–2026",
+        teamPromptMain:"Edita el nombre de tu equipo abajo:" }
+};
+function applyLanguage(lang) {
+  document.querySelectorAll("[data-key]").forEach(el => {
+    const key = el.getAttribute("data-key");
+    if (translations[lang]?.[key]) el.textContent = translations[lang][key];
+  });
+}
+const langBtn = document.getElementById("lang-toggle");
+let currentLang = localStorage.getItem("ubc_lang") || "en";
+applyLanguage(currentLang);
+if (langBtn) langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
+langBtn?.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "es" : "en";
+  localStorage.setItem("ubc_lang", currentLang);
+  applyLanguage(currentLang);
+  langBtn.textContent = currentLang === "en" ? "🌐 Español" : "🌐 English";
+});
+
+/* Friends/Notes panel */
+const friendsBtn = document.getElementById("friends-toggle");
+const friendsPanel = document.getElementById("friends-panel");
+const notesArea = document.getElementById("team-notes");
+const saveNotesBtn = document.getElementById("save-notes");
+const teamDisplay = document.getElementById("team-name-display");
+
+if (notesArea) notesArea.value = localStorage.getItem("teamNotes") || "";
+if (teamDisplay) teamDisplay.textContent = localStorage.getItem("teamName") || "Unknown";
+
+friendsBtn?.addEventListener("click", () => friendsPanel?.classList.toggle("open"));
+saveNotesBtn?.addEventListener("click", () => {
+  localStorage.setItem("teamNotes", notesArea.value);
+  alert("Notes saved!");
+});
+
+/* ================== QUIZ OVERLAY ================== */
+const quizOverlay = document.getElementById("quiz-overlay");
+const quizQuestion = document.getElementById("quiz-question");
+const quizOptions = document.getElementById("quiz-options");
+const quizFeedback = document.querySelector(".quiz-feedback");
+const quizReadBtn = document.getElementById("quiz-read-btn");
+const ohno = document.getElementById("sound-ohno");
+const nextlevel = document.getElementById("sound-nextlevel");
+
+let currentBook = null;
+let currentChapter = 1;
+
+function loadQuiz(bookName, onReady) {
+  // From title-like → file name (Haven → Haven_quiz.json)
+  const pretty = bookName.replace(/_/g," ");
+  const base = pretty.replace(/\s+/g,"_");
+  const path = `quizzes/${base}_quiz.json`;
+  fetch(path).then(r => r.ok ? r.json() : null).then(json => {
+    onReady(json);
+  }).catch(()=> onReady(null));
+}
+
+function showQuiz(bookTitle, chapterLabel) {
+  currentBook = (bookTitle || currentBook || "Haven").toLowerCase().replace(/\s+/g, "_");
+  currentChapter = chapterLabel || currentChapter || 1;
+
+  loadQuiz(bookTitle || "Haven", (data) => {
+    let chapterKey = `chapter_${currentChapter}`;
+    let questions = (data && data[chapterKey]) ? data[chapterKey] : [
+      {
+        question: `What is a main idea in ${bookTitle} – Chapter ${currentChapter}?`,
+        options: ["Shows courage", "Pizza from space", "Build a rocket", "A dragon sleeps"],
+        answer: 0,
+        explanation: "This chapter focuses on bravery or learning."
+      },
+      {
+        question: "Which of these best describes the mood?",
+        options: ["Hopeful", "Silly", "Angry", "Sleepy"],
+        answer: 0,
+        explanation: "Tone is generally calm/hopeful for study focus."
+      }
+    ];
+    runQuiz(bookTitle || "Haven", currentChapter, questions);
+  });
+}
+
+function runQuiz(bookTitle, chapterLabel, questions) {
+  let idx = 0;
+  quizOverlay.style.display = "flex";
+  renderQ();
+
+  function renderQ() {
+    const q = questions[idx];
+    quizQuestion.textContent = q.question;
+    quizOptions.innerHTML = "";
+    quizFeedback.textContent = "";
+
+    q.options.forEach((opt, i) => {
+      const b = document.createElement("button");
+      b.textContent = opt;
+      b.addEventListener("click", ()=> {
+        if (i === q.answer) {
+          quizFeedback.textContent = "Great job! ✅";
+          try { nextlevel?.play(); } catch(e){}
+          setTimeout(()=> nextQ(), 800);
+        } else {
+          quizFeedback.textContent = `Oh no — not quite. ${q.explanation || ""}`;
+          try { ohno?.play(); } catch(e){}
+          logIncorrectAnswer(currentBook, chapterLabel, q.question);
+        }
+      });
+      quizOptions.appendChild(b);
+    });
+
+    quizReadBtn.onclick = () => {
+      const lang = (localStorage.getItem("ubc_lang")==="es") ? "es-ES" : "en-US";
+      readAloud(q.question, lang);
+    };
+  }
+
+  function nextQ() {
+    idx++;
+    if (idx < questions.length) {
+      renderQ();
+    } else {
+      quizOverlay.style.display = "none";
+      completeChapter();
+    }
+  }
+}
+
+/* ================== QUIZ LOGGING ================== */
+function logIncorrectAnswer(book, chapter, questionText) {
+  const quizLog = JSON.parse(localStorage.getItem("quizLog") || "{}");
+  if (!quizLog[book]) quizLog[book] = [];
+  quizLog[book].push({ chapter, question: questionText, date: new Date().toLocaleString() });
+  localStorage.setItem("quizLog", JSON.stringify(quizLog));
+}
+
+/* ================== PROGRESS + BADGES ================== */
+const progressTracker = document.getElementById("progress-tracker");
+const progressBar = document.getElementById("progress-bar");
+const progressText = document.getElementById("progress-text");
+const badgeGrid = document.getElementById("badge-grid");
+
+let bookProgress = JSON.parse(localStorage.getItem("bookProgress") || "{}");
+
+function initProgress(bookKey, totalChapters) {
+  if (!bookProgress[bookKey]) {
+    bookProgress[bookKey] = { chaptersDone: 0, totalChapters, badges: [] };
+    saveProgress();
+  } else {
+    bookProgress[bookKey].totalChapters = totalChapters;
+    saveProgress();
+  }
+  if (progressTracker) progressTracker.style.display = "block";
+  updateProgressUI(bookKey);
+}
+
+function completeChapter() {
+  const prog = bookProgress[currentBook];
+  if (!prog) return;
+  prog.chaptersDone = Math.min((prog.chaptersDone||0) + 1, prog.totalChapters);
+  saveProgress();
+  updateProgressUI(currentBook);
+
+  const percent = Math.round((prog.chaptersDone / prog.totalChapters) * 100);
+  if (percent === 100) { awardBadge(); celebrate(currentBook); }
+}
+
+function awardBadge() {
+  const prog = bookProgress[currentBook]; if (!prog) return;
+
+  const bookBadges = {
+    haven: "🐾 Haven Hero",
+    rover: "🚀 Rover Explorer",
+    lotus: "🌸 Lotus Guardian",
+    super_teacher: "🍎 Superteacher Star",
+    cat_in_space: "🍕 Cosmic Cat",
+    mr_lemoncello: "🏆 Lemoncello Legend",
+    library: "📚 Library Detective",
+    i_survived: "🌊 Survivor Champion"
+  };
+  const badgeText = bookBadges[currentBook] || "⭐ Story Star";
+  const dateEarned = new Date().toLocaleString();
+
+  if (!prog.badges.find(b => (b.name||b) === badgeText)) {
+    prog.badges.push({ name: badgeText, date: dateEarned });
+    saveProgress();
+    showBadge(badgeText);
+    document.getElementById("sound-nextlevel")?.play();
+  }
+}
+
+function updateProgressUI(bookKey) {
+  const prog = bookProgress[bookKey]; if (!prog) return;
+  const percent = Math.round((prog.chaptersDone / prog.totalChapters) * 100);
+  if (progressBar) progressBar.style.width = percent + "%";
+  if (progressText) progressText.textContent = `${percent}% Complete`;
+  if (badgeGrid) {
+    badgeGrid.innerHTML = "";
+    (prog.badges||[]).forEach(b => showBadge(b.name || b));
+  }
+}
+
+function showBadge(label) {
+  const el = document.createElement("div");
+  el.className = "badge";
+  el.innerHTML = `<span>${label.split(" ")[0]}</span><small>${label.split(" ").slice(1).join(" ")}</small>`;
+  badgeGrid?.appendChild(el);
+}
+
+function saveProgress() {
+  localStorage.setItem("bookProgress", JSON.stringify(bookProgress));
+}
+
+/* ================== BADGE SHELF + TIMELINE ================== */
+const badgeShelf = document.getElementById("badge-shelf");
+const shelfGrid  = document.getElementById("shelf-grid");
+const viewBadges = document.getElementById("view-badges");
+const backToMain = document.getElementById("back-to-main");
+
+viewBadges?.addEventListener("click", () => showBadgeShelf());
+backToMain?.addEventListener("click", () => {
+  if (badgeShelf) badgeShelf.style.display = "none";
+  if (progressTracker) progressTracker.style.display = "block";
+});
+
+function titleize(s) {
+  return (s || "").replace(/_/g," ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function showBadgeShelf() {
+  if (progressTracker) progressTracker.style.display = "none";
+  if (badgeShelf) badgeShelf.style.display = "block";
+  if (shelfGrid) shelfGrid.innerHTML = "";
+  const timeline = document.getElementById("timeline");
+  if (timeline) timeline.innerHTML = "";
+
+  const allProgress = JSON.parse(localStorage.getItem("bookProgress") || "{}");
+  const entries = [];
+
+  for (const [book, data] of Object.entries(allProgress)) {
+    (data.badges || []).forEach(b => {
+      const name = b.name || b;
+      const date = b.date || "Date unknown";
+      const el = document.createElement("div");
+      el.className = "shelf-badge";
+      const [emoji, ...words] = name.split(" ");
+      el.innerHTML = `<span>${emoji}</span><small>${words.join(" ")}</small>`;
+      shelfGrid?.appendChild(el);
+      entries.push({ name, date });
+    });
+  }
+
+  entries.sort((a,b)=> new Date(b.date) - new Date(a.date));
+  if (entries.length) {
+    entries.forEach(e => {
+      const t = document.createElement("div");
+      t.className = "timeline-entry";
+      t.innerHTML = `<h4>${e.name}</h4><small>${e.date}</small>`;
+      timeline?.appendChild(t);
+    });
+  } else {
+    if (shelfGrid) shelfGrid.innerHTML = "<p>No badges earned yet. Keep reading! 📖✨</p>";
+  }
+}
+
+/* ================== PARENT DASHBOARD (hooks) ================== */
+const parentDash = document.getElementById("parent-dashboard");
+const viewParentBtn = document.getElementById("view-parent-dashboard");
+const backToBadges = document.getElementById("back-to-badges");
+
+viewParentBtn?.addEventListener("click", () => {
+  if (badgeShelf) badgeShelf.style.display = "none";
+  if (parentDash) parentDash.style.display = "block";
+  buildParentDashboard();
+});
+backToBadges?.addEventListener("click", () => {
+  if (parentDash) parentDash.style.display = "none";
+  if (badgeShelf) badgeShelf.style.display = "block";
+});
+
+function buildParentDashboard() {
+  const totalBooksEl = document.getElementById("total-books");
+  const totalChaptersEl = document.getElementById("total-chapters");
+  const totalWordsEl = document.getElementById("total-words");
+  const totalHoursEl = document.getElementById("total-hours");
+  const tableBody = document.querySelector("#book-summary tbody");
+  const troubleList = document.getElementById("trouble-list");
+
+  const progress = JSON.parse(localStorage.getItem("bookProgress") || "{}");
+  const quizLog = JSON.parse(localStorage.getItem("quizLog") || "{}");
+
+  let booksCompleted = 0, chaptersRead = 0, words = 0, hours = 0;
+  if (tableBody) tableBody.innerHTML = "";
+  if (troubleList) troubleList.innerHTML = "";
+
+  for (const [book, data] of Object.entries(progress)) {
+    const chapters = data.chaptersDone || 0;
+    const total = data.totalChapters || 1;
+    const percent = Math.round((chapters / total) * 100);
+    const status = percent >= 100 ? "✅ Completed" : "In Progress";
+
+    if (percent >= 100) booksCompleted++;
+    chaptersRead += chapters;
+
+    // Estimate words/hours from scene arrays if loaded (optional)
+    const sceneVar = window[`SCENES_${book.toUpperCase()}`];
+    if (sceneVar) {
+      words += sceneVar.reduce((sum, s) => sum + (s.caption?.split(" ").length || 0), 0);
+      hours += sceneVar.reduce((sum, s) => sum + (s.readTime || 0), 0) / 3600;
+    }
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${titleize(book)}</td>
+      <td>${chapters} / ${total}</td>
+      <td>${percent}%</td>
+      <td>${status}</td>`;
+    tableBody?.appendChild(row);
+  }
+
+  if (totalBooksEl) totalBooksEl.textContent = booksCompleted;
+  if (totalChaptersEl) totalChaptersEl.textContent = chaptersRead;
+  if (totalWordsEl) totalWordsEl.textContent = words.toLocaleString();
+  if (totalHoursEl) totalHoursEl.textContent = hours.toFixed(2);
+
+  for (const [book, mistakes] of Object.entries(quizLog)) {
+    mistakes.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${titleize(book)}: Chapter ${item.chapter} – “${item.question.slice(0,60)}...”`;
+      troubleList?.appendChild(li);
+    });
+  }
+  if (troubleList && !troubleList.children.length) {
+    troubleList.innerHTML = "<li>No incorrect answers recorded yet. Great job! 🌟</li>";
+  }
+}
+
+/* ================== READ-ALOUD (TTS) ================== */
+function readAloud(text, lang = "en-US") {
+  if (!("speechSynthesis" in window)) return alert("Speech not supported in this browser.");
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.lang = lang;
+  msg.rate = 1;
+  msg.pitch = 1;
+  msg.volume = 1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(msg);
+}
+
+/* ================== PAGE-BY-PAGE NARRATION ================== */
+function playNarration(story, pageIndex) {
+  try {
+    // Stop any existing narration
+    document.querySelectorAll(".narration-audio").forEach(a => {
+      a.pause();
+      a.remove();
+    });
+
+    const src = `narration/${story}/${story}_${pageIndex}.mp3`;
+    const audio = new Audio(src);
+    audio.className = "narration-audio";
+    audio.volume = 0.9;
+
+    // Fade background music
+    if (bgTracks[currentBg]) fadeOut(bgTracks[currentBg], 400);
+
+    audio.onended = () => {
+      playBg(currentBg); // resume music
+      if (movieModeActive) nextPage(story); // auto-turn page if movie mode
+    };
+
+    audio.play().catch(() => {
+      playBg(currentBg);
+    });
+    document.body.appendChild(audio);
+  } catch (err) {
+    console.warn("Narration error:", err);
+  }
+}
+
+/* Hook narration into updateFlipbook override */
+const originalUpdate = updateFlipbook;
+updateFlipbook = function (story) {
+  originalUpdate(story);
+  playNarration(story, FLIPBOOKS[story].index);
+};
+
+/* ================== MOVIE-MODE ================== */
+let movieModeActive = false;
+const movieBtn = document.getElementById("movie-mode-toggle");
+
+movieBtn?.addEventListener("click", () => {
+  movieModeActive = !movieModeActive;
+  movieBtn.textContent = movieModeActive ? "🎬 Stop Movie" : "🎥 Play Story";
+  if (movieModeActive) startMovie();
+  else stopMovie();
+});
+
+function startMovie() {
+  const activeBook = Object.keys(FLIPBOOKS).find(k => FLIPBOOKS[k].wrapEl.style.display === "flex");
+  if (!activeBook) return alert("Open a book first.");
+  const fb = FLIPBOOKS[activeBook];
+  fb.index = 1;
+  updateFlipbook(activeBook);
+}
+
+function stopMovie() {
+  movieModeActive = false;
+  document.querySelectorAll(".narration-audio").forEach(a => { a.pause(); a.remove(); });
+  playBg(currentBg);
+}
+
+/* ================== SAFE EXIT + RESET ================== */
+window.addEventListener("beforeunload", () => {
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  stopAutoplay();
+});
+
+/* ================== EXPORT UTILITIES (Optional CSV/PDF) ================== */
+function exportQuizLogCSV() {
+  const quizLog = JSON.parse(localStorage.getItem("quizLog") || "{}");
+  let csv = "Book,Chapter,Question,Date\n";
+  for (const [book, arr] of Object.entries(quizLog)) {
+    arr.forEach(i => csv += `"${book}",${i.chapter},"${i.question.replace(/"/g,'""')}",${i.date}\n`);
+  }
+  const blob = new Blob([csv], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "UBC_QuizLog.csv";
+  a.click();
+}
+
+/* Optional: attach to a button id="export-quizlog" */
+document.getElementById("export-quizlog")?.addEventListener("click", exportQuizLogCSV);
+
+/* ================== END OF SCRIPT ================== */
+console.log("%cUBC 2025–2026 Script Loaded Successfully ✅", "color:#3366ff;font-weight:bold;");
